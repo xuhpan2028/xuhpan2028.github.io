@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hey this is XH.">
+    <meta name="keywords"  content="HP, HP Blog, 叙涵的博客, panxuhan, 潘叙涵, iOS, Apple, iPhone">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Swift 3.1 的新变化「译」 - About | XH Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/03/30/Swift-3.1-%E7%9A%84%E6%96%B0%E5%8F%98%E5%8C%96-%E8%AF%91/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">About</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-iWatch.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-iWatch.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
+                        
+                        <a class="tag" href="/tags/#Swift" title="Swift">Swift</a>
+                        
+                        <a class="tag" href="/tags/#Xcode" title="Xcode">Xcode</a>
+                        
+                    </div>
+                    <h1>Swift 3.1 的新变化「译」</h1>
+                    
+                    
+                    <h2 class="subheading">What’s New in Swift 3.1?</h2>
+                    
+                    <span class="meta">Posted by BY on March 30, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p><img src="https://koenig-media.raywenderlich.com/uploads/2017/03/WhatsNewSwift3.1-feature-1-250x250.png" alt="" /></p>
+
+<p>Xcode 8.3 和 Swift 3.1 现在已经发布了(3/28)！</p>
+
+<p>可以通过 <a href="https://itunes.apple.com/us/app/xcode/id497799835?ls=1&amp;mt=12#">AppStore</a> 或 <a href="https://developer.apple.com/download/more/">Apple Developer</a> 进行下载</p>
+
+<p><img src="https://ww2.sinaimg.cn/large/006tNbRwgy1fe2it3xwt6j30s50g3mya.jpg" alt="" /></p>
+
+<p>Xcode 8.3 优化了 Objective-C 与 Swift 混编项目的编译速度.</p>
+
+<p>Swift 3.1 版本包含一些期待已久的 <a href="https://github.com/apple/swift-package-manager">Swift package manager</a> 功能和语法本身的改进。</p>
+
+<p>如果您没有密切关注 <a href="https://github.com/apple/swift-evolution">Swift Evolution</a> 进程，请继续阅读 - 本文非常适合您！</p>
+
+<p>在本文中，我将强调Swift 3.1中最重要的变化，这将对您的代码产生重大影响。我们来吧！😃</p>
+
+<h2 id="开始">开始</h2>
+
+<p>Swift 3.1与Swift 3.0源代码兼容，因此如果您已经使用Xcode 中的 <code class="language-plaintext highlighter-rouge">Edit \ Convert \ To Current Swift Syntax ...</code> 将项目迁移到Swift 3.0，新功能将不会破坏您的代码。不过，苹果已经在Xcode 8.3中支持Swift 2.3。所以如果你还没有从Swift 2.3迁移，现在是时候这样做了！</p>
+
+<p>在下面的部分，您会看到链接的标签，如<code class="language-plaintext highlighter-rouge">[SE-0001]</code>。这些是 <a href="https://apple.github.io/swift-evolution/">Swift Evolution</a> 提案号码。我已经列出了每个提案的链接，以便您可以发现每个特定更改的完整详细信息。我建议您尝试在Playground上验证新的功能，以便更好地了解所有更改的内容。</p>
+
+<blockquote>
+  <p>Note:如果你想了解 swift 3.0 中的新功能，可以看<a href="https://www.raywenderlich.com/135655/whats-new-swift-3">这篇文章</a>。</p>
+</blockquote>
+
+<h2 id="语法改进">语法改进</h2>
+
+<p>首先，我们来看看这个版本中的语法改进，包括关于数值类型的<code class="language-plaintext highlighter-rouge">可失败构造器</code>（<code class="language-plaintext highlighter-rouge">Failable Initializers</code>），新的序列函数等等。</p>
+
+<h4 id="可失败的数值转换构造器failable-numeric-conversion-initializers">可失败的数值转换构造器（Failable Numeric Conversion Initializers）</h4>
+
+<p>Swift 3.1 为所有数值类型 <code class="language-plaintext highlighter-rouge">(Int, Int8, Int16, Int32, Int64, UInt, UInt8, UInt16, UInt32, UInt64, Float, Float80, Double)</code> 添加了<a href="https://www.swiftmi.com/topic/121.html">可失败构造器</a>。</p>
+
+<p>这个功能非常有用，例如，以安全、可恢复的方式处理外源松散类型数据的转换，下面来看 Student 的 JSON 数组的处理：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Student</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">grade</span><span class="p">:</span> <span class="kt">Int</span>
+ 
+  <span class="nf">init</span><span class="p">?(</span><span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">gradeString</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s">"grade"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="k">let</span> <span class="nv">gradeDouble</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">gradeString</span><span class="p">),</span>
+          <span class="k">let</span> <span class="nv">grade</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">exactly</span><span class="p">:</span> <span class="n">gradeDouble</span><span class="p">)</span>  <span class="c1">// &lt;-- 3.1 的改动在这</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="n">grade</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="kd">func</span> <span class="nf">makeStudents</span><span class="p">(</span><span class="n">with</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Student</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">json</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">JSONSerialization</span><span class="o">.</span><span class="nf">jsonObject</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">allowFragments</span><span class="p">),</span>
+        <span class="k">let</span> <span class="nv">jsonArray</span> <span class="o">=</span> <span class="n">json</span> <span class="k">as?</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]]</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">jsonArray</span><span class="o">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="kt">Student</span><span class="o">.</span><span class="kd">init</span><span class="p">)</span>
+<span class="p">}</span>
+ 
+<span class="k">let</span> <span class="nv">rawStudents</span> <span class="o">=</span> <span class="s">"[{</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Ray</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">5.0</span><span class="se">\"</span><span class="s">}, {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Matt</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">6</span><span class="se">\"</span><span class="s">},
+                    {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Chris</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">6.33</span><span class="se">\"</span><span class="s">}, {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Cosmin</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7</span><span class="se">\"</span><span class="s">}, 
+                    {</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Steven</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">grade</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">7.5</span><span class="se">\"</span><span class="s">}]"</span>
+<span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">rawStudents</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">students</span> <span class="o">=</span> <span class="nf">makeStudents</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
+<span class="nf">dump</span><span class="p">(</span><span class="n">students</span><span class="p">)</span> <span class="c1">// [(name: "Ray", grade: 5), (name: "Matt", grade: 6), (name: "Cosmin", grade: 7)]</span>
+</code></pre></div></div>
+<p>在 <code class="language-plaintext highlighter-rouge">Student</code> 类中使用了一个可失败构造器将 <code class="language-plaintext highlighter-rouge">grade</code> 属性从 <code class="language-plaintext highlighter-rouge">Double </code> 转变为 <code class="language-plaintext highlighter-rouge">Int</code>，像这样</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">grade</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">exactly</span><span class="p">:</span> <span class="n">gradeDouble</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>如果<code class="language-plaintext highlighter-rouge">gradeDouble</code>不是整数，例如6.33，它将失败。如果它可以用一个正确的表示Int，例如6.0，它将成功。</p>
+
+<blockquote>
+  <p>Note：虽然<code class="language-plaintext highlighter-rouge">throwing initializers</code> 可以用来替代 <code class="language-plaintext highlighter-rouge">failable initializers</code>。但是使用 <code class="language-plaintext highlighter-rouge">failable initializers</code> 会更好，更符合人的思维。</p>
+</blockquote>
+
+<h5 id="新的序列函数sequence-functions">新的序列函数（Sequence Functions）</h5>
+
+<p>swift3.1添加了两个新的标准库函数在 <code class="language-plaintext highlighter-rouge">Sequence</code> 协议中：<code class="language-plaintext highlighter-rouge">prefix(while:)</code><code class="language-plaintext highlighter-rouge">和prefix(while:)</code><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0045-scan-takewhile-dropwhile.md">[SE-0045]</a>。</p>
+
+<p>构造一个<a href="https://en.wikipedia.org/wiki/Fibonacci_number">斐波纳契</a>无限序列：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">fibonacci</span> <span class="o">=</span> <span class="nf">sequence</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+  <span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="nf">inout</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">?</span> <span class="k">in</span>
+  <span class="k">defer</span> <span class="p">{</span><span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="mi">1</span><span class="p">)}</span>
+  <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>在Swift 3.0中，您只需指定<code class="language-plaintext highlighter-rouge">迭代次数</code>即可遍历fibonacci序列：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.0</span>
+<span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">fibonacci</span><span class="o">.</span><span class="nf">prefix</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>  <span class="c1">// 0 1 1 2 3 5 8 13 21 34</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>在swift 3.1中，您可以使用<code class="language-plaintext highlighter-rouge">prefix(while:)</code>和<code class="language-plaintext highlighter-rouge">drop(while:)</code>获得符合条件在两个给定值之间的序列中的所有元素，就像这样：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.1</span>
+<span class="k">let</span> <span class="nv">interval</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="o">.</span><span class="nf">prefix</span><span class="p">(</span><span class="nv">while</span><span class="p">:</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">})</span><span class="o">.</span><span class="nf">drop</span><span class="p">(</span><span class="nv">while</span><span class="p">:</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">element</span> <span class="k">in</span> <span class="n">interval</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="c1">// 144 233 377 610 987</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">prefix(while:)</code>返回满足某个谓词的最长子序列。它从序列的开头开始，并停在给定闭包返回false的第一个元素上。</p>
+
+<p><code class="language-plaintext highlighter-rouge">drop(while:)</code> 相反：它返回从给定关闭返回false的第一个元素开始的子序列，并在序列结尾完成。</p>
+
+<blockquote>
+  <p>Note:这种情况，可以使用尾随闭包的写法：</p>
+
+  <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">interval</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="o">.</span><span class="k">prefix</span><span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">}</span><span class="o">.</span><span class="n">drop</span><span class="p">{</span><span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">}</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h2 id="concrete-constrained-extensions姑且翻译为类的约束扩展吧">Concrete Constrained Extensions（姑且翻译为类的约束扩展吧）</h2>
+
+<p>Swift 3.1允许您扩展具有类型约束的通用类型。以前，你不能像这样扩展类型，因为约束必须是一个协议。我们来看一个例子。</p>
+
+<p>例如，Ruby on Rails提供了一种<code class="language-plaintext highlighter-rouge">isBlank</code>检查用户输入的非常有用的方法。以下是在Swift 3.0中用 <code class="language-plaintext highlighter-rouge">String</code> 类型的扩展实现这个<strong>计算型属性</strong>：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.0</span>
+<span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">isBlank</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="o">.</span><span class="n">whitespaces</span><span class="p">)</span><span class="o">.</span><span class="n">isEmpty</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="k">let</span> <span class="nv">abc</span> <span class="o">=</span> <span class="s">" "</span>
+<span class="k">let</span> <span class="nv">def</span> <span class="o">=</span> <span class="s">"x"</span>
+ 
+<span class="n">abc</span><span class="o">.</span><span class="n">isBlank</span> <span class="c1">// true</span>
+<span class="n">def</span><span class="o">.</span><span class="n">isBlank</span> <span class="c1">// false</span>
+</code></pre></div></div>
+
+<p>如果你希望<code class="language-plaintext highlighter-rouge">isBlank</code>计算型属性为一个可选值所用，在swift 3.0中，你将要这样做</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.0</span>
+<span class="kd">protocol</span> <span class="kt">StringProvider</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span><span class="k">get</span><span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="kd">extension</span> <span class="kt">String</span><span class="p">:</span> <span class="kt">StringProvider</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">self</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="kd">extension</span> <span class="kt">Optional</span> <span class="k">where</span> <span class="kt">Wrapped</span><span class="p">:</span> <span class="kt">StringProvider</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">isBlank</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">isBlank</span> <span class="p">??</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="k">let</span> <span class="nv">bar</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="s">"  "</span>
+<span class="k">let</span> <span class="nv">baz</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="s">"x"</span>
+ 
+<span class="n">foo</span><span class="o">.</span><span class="n">isBlank</span> <span class="c1">// true</span>
+<span class="n">bar</span><span class="o">.</span><span class="n">isBlank</span> <span class="c1">// true</span>
+<span class="n">baz</span><span class="o">.</span><span class="n">isBlank</span> <span class="c1">// false</span>
+</code></pre></div></div>
+
+<p>这创建了一个采用 <code class="language-plaintext highlighter-rouge">String</code> 的 <code class="language-plaintext highlighter-rouge">StringProvider</code> 协议而在你使用StringProvider扩展可选的 wrapped 类型时,添加isBlank方法。</p>
+
+<p>Swift 3.1中，用来替代协议方法，扩展具体类型的方法像这样：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.1</span>
+<span class="kd">extension</span> <span class="kt">Optional</span> <span class="k">where</span> <span class="kt">Wrapped</span> <span class="o">==</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">isBlank</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">isBlank</span> <span class="p">??</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>这就用更少的代码实现了和原先相同的功能~</p>
+
+<h2 id="泛型嵌套nested-generics">泛型嵌套（Nested Generics）</h2>
+
+<p>Swift 3.1允许您将嵌套类型与泛型混合。作为一个练习，考虑这个（不是太疯狂）的例子。每当某个团队领导raywenderlich.com想在博客上发布一篇文章时，他会分配一批专门的开发人员来处理这个问题，以满足网站的高质量标准：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Team</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">enum</span> <span class="kt">TeamType</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">swift</span>
+    <span class="k">case</span> <span class="n">iOS</span>
+    <span class="k">case</span> <span class="n">macOS</span>
+  <span class="p">}</span>
+ 
+  <span class="kd">class</span> <span class="kt">BlogPost</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kd">enum</span> <span class="kt">BlogPostType</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="n">tutorial</span>
+      <span class="k">case</span> <span class="n">article</span>
+    <span class="p">}</span>
+ 
+    <span class="k">let</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">T</span>
+    <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">BlogPostType</span>
+    <span class="k">let</span> <span class="nv">category</span><span class="p">:</span> <span class="kt">TeamType</span>
+    <span class="k">let</span> <span class="nv">publishDate</span><span class="p">:</span> <span class="kt">Date</span>
+ 
+    <span class="nf">init</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">BlogPostType</span><span class="p">,</span> <span class="nv">category</span><span class="p">:</span> <span class="kt">TeamType</span><span class="p">,</span> <span class="nv">publishDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+      <span class="k">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">type</span>
+      <span class="k">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+      <span class="k">self</span><span class="o">.</span><span class="n">publishDate</span> <span class="o">=</span> <span class="n">publishDate</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+ 
+  <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">TeamType</span>
+  <span class="k">let</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">T</span>
+  <span class="k">let</span> <span class="nv">teamLead</span><span class="p">:</span> <span class="kt">T</span>
+  <span class="k">let</span> <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">BlogPost</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span>
+ 
+  <span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">TeamType</span><span class="p">,</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">teamLead</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">BlogPost</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">type</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">teamLead</span> <span class="o">=</span> <span class="n">teamLead</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">blogPost</span> <span class="o">=</span> <span class="n">blogPost</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>将<code class="language-plaintext highlighter-rouge">BlogPost</code>内部类嵌套在其对应的<code class="language-plaintext highlighter-rouge">Team</code>外部类中，并使两个类都通用。这是团队如何寻找我在网站上发布的教程和文章：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">Team</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">swift</span><span class="p">,</span> <span class="nv">author</span><span class="p">:</span> <span class="s">"Cosmin Pupăză"</span><span class="p">,</span> <span class="nv">teamLead</span><span class="p">:</span> <span class="s">"Ray Fix"</span><span class="p">,</span> 
+     <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">Team</span><span class="o">.</span><span class="kt">BlogPost</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Pattern Matching"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">tutorial</span><span class="p">,</span> 
+     <span class="nv">category</span><span class="p">:</span> <span class="o">.</span><span class="n">swift</span><span class="p">,</span> <span class="nv">publishDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">()))</span>
+ 
+<span class="kt">Team</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">swift</span><span class="p">,</span> <span class="nv">author</span><span class="p">:</span> <span class="s">"Cosmin Pupăză"</span><span class="p">,</span> <span class="nv">teamLead</span><span class="p">:</span> <span class="s">"Ray Fix"</span><span class="p">,</span> 
+     <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">Team</span><span class="o">.</span><span class="kt">BlogPost</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"What's New in Swift 3.1?"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">article</span><span class="p">,</span> 
+     <span class="nv">category</span><span class="p">:</span> <span class="o">.</span><span class="n">swift</span><span class="p">,</span> <span class="nv">publishDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<p>但实际上，在这种情况下，您可以简化该代码。如果嵌套的内部类型使用通用外部类型，那么它默认继承父类的类型。因此，您不需要如此声明：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Team</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="c1">// original code </span>
+ 
+  <span class="kd">class</span> <span class="kt">BlogPost</span> <span class="p">{</span>
+    <span class="c1">// original code</span>
+  <span class="p">}</span>  
+ 
+  <span class="c1">// original code </span>
+  <span class="k">let</span> <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">BlogPost</span>
+ 
+  <span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">TeamType</span><span class="p">,</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">teamLead</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">blogPost</span><span class="p">:</span> <span class="kt">BlogPost</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// original code   </span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note：如果您想了解更多关于Swift中的<strong>泛型</strong>，请阅读我们最近更新的<a href="https://www.raywenderlich.com/154371/swift-generics-tutorial-getting-started">Swift泛型入门的教程</a>。</p>
+</blockquote>
+
+<h2 id="swift版本的可用性">Swift版本的可用性</h2>
+
+<p>您可以使用<strong>#if swift(&gt;= N)</strong> <code class="language-plaintext highlighter-rouge">静态构造</code>来检查特定的Swift版本：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.0</span>
+<span class="cp">#if swift(&gt;=3.1)</span>
+  <span class="kd">func</span> <span class="nf">intVersion</span><span class="p">(</span><span class="nv">number</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">exactly</span><span class="p">:</span> <span class="n">number</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="cp">#elseif swift(&gt;=3.0)</span>
+  <span class="kd">func</span> <span class="nf">intVersion</span><span class="p">(</span><span class="nv">number</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="cp">#endif</span>
+</code></pre></div></div>
+
+<p>然而，当使用Swift标准库时，这种方法有一个主要缺点。它需要为每个受支持的旧语言版本编译标准库。这是因为当您以向后兼容模式运行Swift编译器时，例如您要使用Swift 3.0行为，则需要使用针对该特定兼容性版本编译的标准库版本。如果您使用版本3.1模式编译的，那么您根本就没有正确的代码</p>
+
+<p>因此，@available除了现有平台版本 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0141-available-by-swift-version.md">[SE-0141]</a> 之外，Swift 3.1扩展了该属性以支持指定Swift版本号：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.1</span>
+ 
+<span class="kd">@available</span><span class="p">(</span><span class="n">swift</span> <span class="mf">3.1</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">intVersion</span><span class="p">(</span><span class="nv">number</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">exactly</span><span class="p">:</span> <span class="n">number</span><span class="p">)</span>
+<span class="p">}</span>
+ 
+<span class="kd">@available</span><span class="p">(</span><span class="n">swift</span><span class="p">,</span> <span class="nv">introduced</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nv">obsoleted</span><span class="p">:</span> <span class="mf">3.1</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">intVersion</span><span class="p">(</span><span class="nv">number</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这个新功能提供了与<code class="language-plaintext highlighter-rouge">intVersionSwift</code>版本有关的方法相同的行为。但是，它只允许像标准库这样的库被编译一次。编译器然后简单地选择可用于所选择的给定兼容性版本的功能。</p>
+
+<blockquote>
+  <p>Note：注意：如果您想了解更多关于Swift 的<code class="language-plaintext highlighter-rouge">可用性属性（ availability attributes）</code>，请参阅我们关于<a href="https://www.raywenderlich.com/139077/availability-attributes-swift">Swift中可用性属性的教程</a>。</p>
+</blockquote>
+
+<h2 id="逃逸闭包escaping-closures">逃逸闭包（Escaping Closures）</h2>
+
+<p>在Swift 3.0 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md">[ SE-0103 ]</a> 中函数中的闭包的参数是默认是不逃逸的（non-escaping）。在Swift 3.1中，您可以使用新的函数<code class="language-plaintext highlighter-rouge">withoutActuallyEscaping()</code>将非逃逸闭包转换为临时逃逸。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">,</span> <span class="n">simultaneouslyWith</span> <span class="nv">g</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">,</span>
+             <span class="n">on</span> <span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nf">withoutActuallyEscaping</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span> <span class="n">escapableF</span> <span class="k">in</span>     <span class="c1">// 1</span>
+    <span class="nf">withoutActuallyEscaping</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="p">{</span> <span class="n">escapableG</span> <span class="k">in</span>
+      <span class="n">queue</span><span class="o">.</span><span class="nf">async</span><span class="p">(</span><span class="nv">execute</span><span class="p">:</span> <span class="n">escapableF</span><span class="p">)</span>           <span class="c1">// 2</span>
+      <span class="n">queue</span><span class="o">.</span><span class="nf">async</span><span class="p">(</span><span class="nv">execute</span><span class="p">:</span> <span class="n">escapableG</span><span class="p">)</span>     
+ 
+      <span class="n">queue</span><span class="o">.</span><span class="nf">sync</span><span class="p">(</span><span class="nv">flags</span><span class="p">:</span> <span class="o">.</span><span class="n">barrier</span><span class="p">)</span> <span class="p">{}</span>             <span class="c1">// 3</span>
+    <span class="p">}</span>                                            <span class="c1">// 4</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>此函数同时加载两个闭包，然后在两个完成之后返回。</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">f</code> 与 <code class="language-plaintext highlighter-rouge">g</code> 进入函数后由非逃逸状态，分别转换为逃逸闭包:<code class="language-plaintext highlighter-rouge">escapableF</code>和<code class="language-plaintext highlighter-rouge">escapableG</code>。</li>
+  <li>async(execute:) 的调用需要逃逸闭包，我们在上面已经进行了转换。</li>
+  <li>通过运行<code class="language-plaintext highlighter-rouge">sync(flags: .barrier)</code>，您确保<code class="language-plaintext highlighter-rouge">async(execute:)</code>方法完全完成，稍后将不会调用闭包。</li>
+  <li>在范围内使用 <code class="language-plaintext highlighter-rouge">escapableF</code> and <code class="language-plaintext highlighter-rouge">escapableG</code>.</li>
+</ol>
+
+<p>如果你存储临时逃离闭包(即真正逃脱)这将是一个Bug。未来版本的标准库可以检测这个陷阱,如果你试图调用它们。</p>
+
+<h2 id="swift-package-manager-更新">Swift Package Manager 更新</h2>
+
+<p>啊，期待已久的 <strong>Swift Package Manage</strong> 的更新了！</p>
+
+<h4 id="可编辑软件包editable-packages">可编辑软件包（Editable Packages）</h4>
+
+<p>Swift 3.1将<code class="language-plaintext highlighter-rouge">可编辑软件包(editable packages)</code>的概念添加到Swift软件包管理器 <a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md#editable-packages">[ SE-0082 ]</a>。</p>
+
+<p>该<code class="language-plaintext highlighter-rouge">swift package edit</code>命令使用现有的<code class="language-plaintext highlighter-rouge">Packages</code>并将其转换为<code class="language-plaintext highlighter-rouge">editable Packages</code>。使用<code class="language-plaintext highlighter-rouge">--end-edit</code>命令将 <code class="language-plaintext highlighter-rouge">package manager</code> 还原回 <strong>规范解析的软件包（canonical resolved packag）</strong>。</p>
+
+<h4 id="版本固定version-pinning">版本固定（Version Pinning）</h4>
+
+<p>Swift 3.1 添加了版本固定的概念[ SE-0145 ]。该 <code class="language-plaintext highlighter-rouge">pin</code> 命令 固定一个或所有依赖关系如下所示：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span> <span class="n">swift</span> <span class="kd">package</span> <span class="n">pin</span> <span class="o">--</span><span class="n">all</span>      <span class="c1">// 固定所有的依赖</span>
+<span class="err">$</span> <span class="n">swift</span> <span class="kd">package</span> <span class="n">pin</span> <span class="kt">Foo</span>        <span class="c1">// 固定 Foo 在当前的闭包</span>
+<span class="err">$</span> <span class="n">swift</span> <span class="kd">package</span> <span class="n">pin</span> <span class="kt">Foo</span> <span class="o">--</span><span class="n">version</span> <span class="mf">1.2</span><span class="o">.</span><span class="mi">3</span>  <span class="c1">// 固定 Foo 在 1.2.3 版本</span>
+
+</code></pre></div></div>
+
+<p>使用<code class="language-plaintext highlighter-rouge">unpin</code>命令恢复到以前的包版本：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span> <span class="n">swift</span> <span class="kd">package</span> <span class="n">unpin</span> <span class="err">—</span><span class="n">all</span>
+<span class="err">$</span> <span class="n">swift</span> <span class="kd">package</span> <span class="n">unpin</span> <span class="kt">Foo</span>
+</code></pre></div></div>
+
+<p>Package manager 将每个依赖库的版本固定信息存储在 <code class="language-plaintext highlighter-rouge">Package.pins</code> 文件中。如果该文件不存在，则Package manager 会自动创建。</p>
+
+<h4 id="其他">其他</h4>
+
+<p><code class="language-plaintext highlighter-rouge">swift package reset</code> 命令将会把 Package 重置干净。</p>
+
+<p><code class="language-plaintext highlighter-rouge">swift test --parallel</code> 命令 执行测试。</p>
+
+<h2 id="其他改动">其他改动</h2>
+
+<p>在 swift 3.1 中还有一些小改动</p>
+
+<h4 id="多重返回函数">多重返回函数</h4>
+<p>C函数返回两次，例如<code class="language-plaintext highlighter-rouge">vfork</code> 和 <code class="language-plaintext highlighter-rouge">vfork </code>已经不用了。他们以有趣的方式改变了程序的控制流程。所以 Swift 社区 已经禁止了该行为，以免导致编译错误。</p>
+
+<h4 id="自动链接失效disable-auto-linking">自动链接失效（Disable Auto-Linking）</h4>
+
+<p><a href="https://github.com/apple/swift-package-manager">Swift Package Manager</a> 禁用了在C语言 <a href="http://nsomar.com/modular-framework-creating-and-using-them/"><strong>模块映射（module maps）</strong></a>中的<strong>自动链接</strong>的功能：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Swift 3.0</span>
+<span class="n">module</span> <span class="kt">MyCLib</span> <span class="p">{</span>
+    <span class="n">header</span> <span class="err">“</span><span class="n">foo</span><span class="o">.</span><span class="n">h</span><span class="s">"
+    link “MyCLib"</span>
+    <span class="n">export</span> <span class="o">*</span>
+<span class="p">}</span>
+ 
+<span class="c1">// Swift 3.1</span>
+<span class="n">module</span> <span class="kt">MyCLib</span> <span class="p">{</span>
+    <span class="n">header</span> <span class="err">“</span><span class="n">foo</span><span class="o">.</span><span class="n">h</span><span class="err">”</span>
+    <span class="n">export</span> <span class="o">*</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="结语">结语</h2>
+
+<p>Swift 3.1改善了Swift 3.0的一些功能，为即将到来的Swift 4.0的大改动做准备。这些包括对泛型，正则表达式，更科学的<code class="language-plaintext highlighter-rouge">String</code>等方面的作出极大的改进。</p>
+
+<p>如果你想了解更多，请转到 <a href="https://developer.apple.com/reference/swift?changes=latest_minor">Swift standard library diffs</a> 或者查看官方的的<a href="https://github.com/apple/swift/blob/master/CHANGELOG.md">Swift CHANGELOG</a>，您可以在其中阅读所有更改的信息。或者您可以使用它来了解 <strong>Swift 4.0</strong> 中的内容！</p>
+
+<h2 id="著作权声明">著作权声明</h2>
+
+<p>本文译自 <a href="https://www.raywenderlich.com/156352/whats-new-in-swift-3-1">What’s New in Swift 3.1?</a></p>
+
+<p>由<a href="http://github.com/qiubaiying">@柏荧(BY)</a>进行翻译,首次发布于 <a href="http://qiubaiying.github.io">BY Blog</a>，转载请保留原文链接.</p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/23/AsyncDisplayKit-2.0-%E6%95%99%E7%A8%8B-%E5%85%A5%E9%97%A8-%E8%AF%91/" data-toggle="tooltip" data-placement="top" title="AsyncDisplayKit 2.0 教程:入门「译」">
+                        Previous<br>
+                        <span>AsyncDisplayKit 2.0 教程:入门「译」</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/04/07/%E5%BC%BA%E5%8C%96-Swift-%E4%B8%AD%E7%9A%84-print/" data-toggle="tooltip" data-placement="top" title="强化 swift 中的 print">
+                        Next<br>
+                        <span>强化 swift 中的 print</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- 引入Gitalk评论插件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <!-- 引入一个生产md5的js，用于对id值进行处理，防止其过长 -->
+                <!-- Thank DF:https://github.com/NSDingFan/NSDingFan.github.io/issues/3#issuecomment-407496538 -->
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                    clientID: 'f2c84e7629bb1446c1a4',
+                    clientSecret: 'ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d',
+                    repo: 'qiubaiying.github.io',
+                    owner: 'qiubaiying',
+                    admin: ['qiubaiying'],
+                    distractionFreeMode: true,
+                    id: md5(location.pathname),
+                    });
+                    gitalk.render('gitalk-container');
+                </script>
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#iOS" title="iOS" rel="36">
+                                    iOS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#开发技巧" title="开发技巧" rel="7">
+                                    开发技巧
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Debug" title="Debug" rel="2">
+                                    Debug
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Obj-C" title="Obj-C" rel="3">
+                                    Obj-C
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="10">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ReactiveCocoa" title="ReactiveCocoa" rel="2">
+                                    ReactiveCocoa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#函数式编程" title="函数式编程" rel="2">
+                                    函数式编程
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开源框架" title="开源框架" rel="2">
+                                    开源框架
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Runtime" title="Runtime" rel="2">
+                                    Runtime
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#生活" title="生活" rel="5">
+                                    生活
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Blog" title="Blog" rel="2">
+                                    Blog
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Mac" title="Mac" rel="8">
+                                    Mac
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#效率" title="效率" rel="3">
+                                    效率
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#终端" title="终端" rel="7">
+                                    终端
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Git" title="Git" rel="5">
+                                    Git
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Swift" title="Swift" rel="9">
+                                    Swift
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#CocoaPods" title="CocoaPods" rel="2">
+                                    CocoaPods
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#zsh" title="zsh" rel="2">
+                                    zsh
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#开源库" title="开源库" rel="2">
+                                    开源库
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ruby" title="ruby" rel="3">
+                                    ruby
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#shell" title="shell" rel="2">
+                                    shell
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#健身" title="健身" rel="3">
+                                    健身
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://johnny1882.github.io">JY</a></li>
+                    
+                        <li><a href="https://apple.com">Apple</a></li>
+                    
+                        <li><a href="https://developer.apple.com/">Apple Developer</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/xuhpan2028">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; About 2025
+                    <br>
+                    Theme on <a href="https://github.com/xuhpan2028/xuhpan2028.github.io">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=xuhpan2028&repo=xuhpan2028.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-90855596-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'b50bf2b12b5338a1845e33832976fd68';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

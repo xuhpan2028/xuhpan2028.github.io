@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hey this is XH.">
+    <meta name="keywords"  content="HP, HP Blog, 叙涵的博客, panxuhan, 潘叙涵, iOS, Apple, iPhone">
+    <meta name="theme-color" content="#000000">
+    
+    <title>CocoaPods公有仓库的创建 - About | XH Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/03/08/CocoaPods%E5%85%AC%E6%9C%89%E4%BB%93%E5%BA%93%E7%9A%84%E5%88%9B%E5%BB%BA/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">About</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-ios10.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-ios10.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
+                        
+                        <a class="tag" href="/tags/#CocoaPods" title="CocoaPods">CocoaPods</a>
+                        
+                        <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                    <h1>CocoaPods公有仓库的创建</h1>
+                    
+                    
+                    <h2 class="subheading">手把手教你创建 CocoaPods 公有仓库</h2>
+                    
+                    <span class="meta">Posted by BY on March 8, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>本文发布于 <a href="http://qiubaiying.github.io">BY Blog</a>、<a href="http://www.jianshu.com/p/d2d98298b1b8">简书</a> 转载请保留链接</p>
+</blockquote>
+
+<h1 id="前言">前言</h1>
+
+<p>作为iOS开发者，CocoaPods的使用为我们开发带来了极大的便利。</p>
+
+<p>我们先来看看CocoaPods本地目录中有什么</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/.cocoapods/repos/master
+</code></pre></div></div>
+
+<p>或者显示隐藏文件</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder
+</code></pre></div></div>
+
+<p>然后进入 <code class="language-plaintext highlighter-rouge">~/.cocoapods/repos/master</code></p>
+
+<p>你会发现 <code class="language-plaintext highlighter-rouge">master</code> 是一个 git 仓库，输出仓库的远程地址，发现是一个GitHub仓库</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git remote -v
+
+origin	https://github.com/CocoaPods/Specs.git (fetch)
+origin	https://github.com/CocoaPods/Specs.git (push)
+</code></pre></div></div>
+
+<p><a href=""><img src="https://ww4.sinaimg.cn/large/006tKfTcgy1fdgdi59dnnj31kw10247u.jpg" alt="" /></a></p>
+
+<p>继续，我们进入<code class="language-plaintext highlighter-rouge">Specs</code>文件夹一直往里点</p>
+
+<p><img src="https://ww3.sinaimg.cn/large/006tKfTcgy1fdgdpyex7mj30yk0bkdi5.jpg" alt="" /></p>
+
+<p>你会发现很多框架以及版本号，选择一个框架，通过</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod search YYImage
+</code></pre></div></div>
+
+<p>pod搜索 Specs 文件夹中的框架，输出框架信息</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-&gt; YYImage (1.0.4)
+   Image framework for iOS to display/encode/decode animated WebP, APNG, GIF,
+   and more.
+   pod 'YYImage', '~&gt; 1.0.4'
+   - Homepage: https://github.com/ibireme/YYImage
+   - Source:   https://github.com/ibireme/YYImage.git
+   - Versions: 1.0.4, 1.0.3, 1.0.2, 1.0.1, 1.0, 0.9.5, 0.9.4, 0.9.3, 0.9.2,
+   0.9.1, 0.9.0, 0.8.9 [master repo]
+   - Subspecs:
+     - YYImage/Core (1.0.4)
+     - YYImage/WebP (1.0.4) 每个版本号对应的一个json文件,描述了每个对应版本的框架的信息、配置、及源码下载地。
+</code></pre></div></div>
+
+<p><img src="https://ww4.sinaimg.cn/large/006tKfTcgy1fdgdsl5tdxj318q14mdq2.jpg" alt="" /></p>
+
+<p>我们在 CocoaPods 发布我们的框架时，就是要在 <code class="language-plaintext highlighter-rouge">master</code> 仓库中添加我们的仓库描述信息，然后push到远程仓库中。不过这个过程不用我们手动去操作，只需要通过<code class="language-plaintext highlighter-rouge">pod</code>命令进行操作即可。</p>
+
+<p>下面我们将一步步把我封装的这个简单的TextFiled控件 <a href="https://github.com/qiubaiying/BYPhoneNumTF">BYPhoneNumTF</a> 上传到 Cocoapods 公有仓库中。</p>
+
+<h1 id="正文">正文</h1>
+
+<h4 id="注册-cocoapods-账号">注册 CocoaPods 账号</h4>
+<p>想创建开源的Pod库，就要注册一个CocoaPods账号，我们使用终端注册, <code class="language-plaintext highlighter-rouge">email</code> 用你的 <code class="language-plaintext highlighter-rouge">GitHub</code> 邮箱</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod trunk register GitHub_email 'user_name' --verbose
+</code></pre></div></div>
+
+<p>等终端出现下面文字，CocoaPods 会发一个<code class="language-plaintext highlighter-rouge">确认邮件</code>到你的邮箱上，登录你的邮箱进行确认。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[!] Please verify the session by clicking the link in the verification email that has been sent to you_email@163.com
+</code></pre></div></div>
+
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fdeco0ndc9j30r10h3wgt.jpg" alt="" /></p>
+
+<p>注册成功！</p>
+
+<p>确认后再终端输入</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod trunk me
+</code></pre></div></div>
+
+<p>可以看到你的注册信息</p>
+
+<p><img src="https://ww4.sinaimg.cn/large/006tNbRwgy1fdecs0z72oj30n004q3z2.jpg" alt="" /></p>
+
+<h4 id="创建git仓库">创建Git仓库</h4>
+
+<p>在 <a href="https://github.com">GitHub</a> 上创建一个公开项目，项目中必须包含这几个文件</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">LICENSE</code>:开源许可证</li>
+  <li><code class="language-plaintext highlighter-rouge">README.md</code>:仓库说明</li>
+  <li>你的代码</li>
+  <li><code class="language-plaintext highlighter-rouge">BYPhoneNumTF.podspec</code>: CocoaPods 的描述文件，这个文件<strong>非常重要</strong></li>
+</ul>
+
+<p>如下图：</p>
+
+<p><img src="https://ww2.sinaimg.cn/large/006tNbRwgy1fdfhvy3c19j31iq0dqn03.jpg" alt="" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">BYPhoneNumTF</code> 文件夹下是我存放代码的地方</p>
+
+<p><code class="language-plaintext highlighter-rouge">BYPhoneNumTF_Demo</code> 是代码使用样例（不是必须的）</p>
+
+<h4 id="创建podspec">创建<code class="language-plaintext highlighter-rouge">.podspec</code></h4>
+<p><code class="language-plaintext highlighter-rouge">.podspec</code> 是用 Ruby 的配置文件，描述你项目的信息。</p>
+
+<p>在你的仓库目录下，使用终端命令创建</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod spec create BYPhoneNumTF
+</code></pre></div></div>
+
+<p>这时就会在你的仓库下生成 <code class="language-plaintext highlighter-rouge">BYPhoneNumTF.podspec</code> 文件</p>
+
+<p><img src="https://ww4.sinaimg.cn/large/006tNbRwgy1fdfioo1c4zj31bq0s20zn.jpg" alt="" /></p>
+
+<p>修改里面的配置就可以发布了~当然，没这么简单。</p>
+
+<p>配置文件中的注释很多，而且很多配置都不是必须的，写多了等下验证还不让过~</p>
+
+<p>so~<strong>强烈建议</strong>，直接拷贝下面的主要配置进行修改</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">name</span>         <span class="o">=</span> <span class="s2">"BYPhoneNumTF"</span> <span class="c1"># 项目名称</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">version</span>      <span class="o">=</span> <span class="s2">"1.0.0"</span>        <span class="c1"># 版本号 与 你仓库的 标签号 对应</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">license</span>      <span class="o">=</span> <span class="s2">"MIT"</span>          <span class="c1"># 开源证书</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">summary</span>      <span class="o">=</span> <span class="s2">"A delightful TextField of PhoneNumber"</span> <span class="c1"># 项目简介</span>
+
+  <span class="n">s</span><span class="p">.</span><span class="nf">homepage</span>     <span class="o">=</span> <span class="s2">"https://github.com/qiubaiying/BYPhoneNumTF"</span> <span class="c1"># 你的主页</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">source</span>       <span class="o">=</span> <span class="p">{</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">"https://github.com/qiubaiying/BYPhoneNumTF.git"</span><span class="p">,</span> <span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="n">s</span><span class="p">.</span><span class="nf">version</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span><span class="c1">#你的仓库地址，不能用SSH地址</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">source_files</span> <span class="o">=</span> <span class="s2">"BYPhoneNumTF/*.{h,m}"</span> <span class="c1"># 你代码的位置， BYPhoneNumTF/*.{h,m} 表示 BYPhoneNumTF 文件夹下所有的.h和.m文件</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">requires_arc</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1"># 是否启用ARC</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">platform</span>     <span class="o">=</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s2">"7.0"</span> <span class="c1">#平台及支持的最低版本</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">frameworks</span>   <span class="o">=</span> <span class="s2">"UIKit"</span><span class="p">,</span> <span class="s2">"Foundation"</span> <span class="c1">#支持的框架</span>
+  <span class="c1"># s.dependency   = "AFNetworking" # 依赖库</span>
+  
+  <span class="c1"># User</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">author</span>             <span class="o">=</span> <span class="p">{</span> <span class="s2">"BY"</span> <span class="o">=&gt;</span> <span class="s2">"qiubaiyingios@163.com"</span> <span class="p">}</span> <span class="c1"># 作者信息</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">social_media_url</span>   <span class="o">=</span> <span class="s2">"http://qiubaiying.github.io"</span> <span class="c1"># 个人主页</span>
+
+<span class="k">end</span>
+</code></pre></div></div>
+<p>最最关键的步骤的到了，验证 <code class="language-plaintext highlighter-rouge">.podspec</code> 文件的格式是否正确，</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod lib lint
+</code></pre></div></div>
+
+<p>验证会出现成功出现</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -&gt; BYPhoneNumTF (1.0.0)
+
+BYPhoneNumTF passed validation.	
+</code></pre></div></div>
+
+<p>但是很多情况没这么顺利，比如:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -&gt; BYPhoneNumTF (1.0.0)
+    - WARN  | url: There was a problem validating the URL http://qiubaiying.github.io.
+
+[!] BYPhoneNumTF did not pass validation, due to 1 warning (but you can use `--allow-warnings` to ignore it) and all results apply only to public specs, but you can use `--private` to ignore them if linting the specification for a private pod.
+[!] The validator for Swift projects uses Swift 3.0 by default, if you are using a different version of swift you can use a `.swift-version` file to set the version for your Pod. For example to use Swift 2.3, run: 
+    `echo "2.3" &gt; .swift-version`.
+You can use the `--no-clean` option to inspect any issue.
+</code></pre></div></div>
+
+<p>提示我们需要加<code class="language-plaintext highlighter-rouge">--allow-warnings</code>这么一句话，命令改为</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod lib lint --allow-warnings
+</code></pre></div></div>
+
+<p>若还是提示什么<code class="language-plaintext highlighter-rouge">'echo "2.3" &gt; .swift-version'</code>的，就加这么一个东西。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo "2.3" &gt; .swift-version 然后在进行验证，这是应该就可以了。若还是不行，回到配置文件中检查有没有写错配置信息~
+</code></pre></div></div>
+
+<h4 id="给仓库打标签">给仓库打标签</h4>
+
+<p>验证成功后，将仓库提交到远程，然后给仓库打上标签并将标签也推送到远程。</p>
+
+<p>标签相当于将你的仓库的一个压缩包，用于稳定存储当前版本。标签号与你在 <code class="language-plaintext highlighter-rouge">s.version = "1.0.0"</code>的版本号一致 <code class="language-plaintext highlighter-rouge">1.0.0</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建标签
+$ git tag -a 1.0.0 -m '标签说明' 
+推送到远程
+$ git push origin --tags
+</code></pre></div></div>
+
+<h4 id="发布podspec">发布<code class="language-plaintext highlighter-rouge">.podspec</code></h4>
+
+<p>最后一步，发布项目的描述的文件 <code class="language-plaintext highlighter-rouge">BYPhoneNumTF.podspec</code></p>
+
+<p>在仓库目录下执行</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod trunk push BYPhoneNumTF.podspec
+</code></pre></div></div>
+
+<p>将你的 <code class="language-plaintext highlighter-rouge">BYPhoneNumTF.podspec</code> 发布到公有的speecs上,这一步其实做了很多操作,包括</p>
+
+<ol>
+  <li>更新本地 pods 库 <code class="language-plaintext highlighter-rouge">~/.cocoaPods.repo/master</code>
+    <ul>
+      <li>验证<code class="language-plaintext highlighter-rouge">.podspec</code>格式是否正确</li>
+      <li>将 <code class="language-plaintext highlighter-rouge">.podspec</code> 文件转成 JSON 格式</li>
+      <li>对 <code class="language-plaintext highlighter-rouge">master</code> 仓库 进行合并、提交.<a href="https://github.com/CocoaPods/Specs">master仓库地址</a></li>
+    </ul>
+  </li>
+</ol>
+
+<p>成功后将会出现下列信息：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Updating spec repo `master`
+Validating podspec
+ -&gt; BYPhoneNumTF (1.0.0)
+
+Updating spec repo `master`
+
+--------------------------------------------------------------------------------
+ 🎉  Congrats
+
+ 🚀  BYPhoneNumTF (1.0.0) successfully published
+ 📅  March 7th, 01:39
+ 🌎  https://cocoapods.org/pods/BYPhoneNumTF
+ 👍  Tell your friends!
+</code></pre></div></div>
+
+<p>说明发布成功，你就可以通过上面的URL: <a href="https://cocoapods.org/pods/BYPhoneNumTF">https://cocoapods.org/pods/BYPhoneNumTF</a> 进入的Pods查看自己的仓库信息了.</p>
+
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fded7yh8ugj31kw19djyk.jpg" alt="" /></p>
+
+<h4 id="使用仓库">使用仓库</h4>
+
+<p>发布到Cocoapods后，在终端更新本地pods仓库信息</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod setup
+</code></pre></div></div>
+
+<p>查询仓库</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pod search BYPhoneNumTF ---
+-&gt; BYPhoneNumTF (1.0.0)
+   A delightful TextField of PhoneNumber
+   pod 'BYPhoneNumTF', '~&gt; 1.0.0'
+   - Homepage: https://github.com/qiubaiying/BYPhoneNumTF
+   - Source:   https://github.com/qiubaiying/BYPhoneNumTF.git
+   - Versions: 1.0.0, 0.0.1 [BYPhoneNumTF repo]
+(END)
+</code></pre></div></div>
+
+<p>若出现仓库信息说明已经成功了，这时候你就可以在 <code class="language-plaintext highlighter-rouge">Podfile</code> 添加、使用自己的仓库了 <code class="language-plaintext highlighter-rouge">pod 'BYPhoneNumTF', '~&gt; 1.0.0'</code></p>
+
+<p><img src="https://ww1.sinaimg.cn/large/006tNbRwgy1fdedvficvaj30fu0loaex.jpg" alt="" /></p>
+
+<h4 id="更新维护">更新维护</h4>
+
+<p>当你的代码更新维护后，就需要重写发布，流程是：</p>
+
+<ul>
+  <li>更新<code class="language-plaintext highlighter-rouge">BYPhoneNumTF.podspec</code>中的版本号</li>
+  <li>打上标签推送远程</li>
+  <li><code class="language-plaintext highlighter-rouge">pod trunk push BYPhoneNumTF.podspec</code> 推送到pods仓库</li>
+</ul>
+
+<p>更新后你就可以在 <a href="https://github.com/CocoaPods/Specs">CocoaPods Master Repo</a> 仓库上看到自己的提交记录了。</p>
+
+<p><img src="https://ww4.sinaimg.cn/large/006tNbRwgy1fdfkr2l7omj31kw0d7446.jpg" alt="" /></p>
+
+<h1 id="结语">结语</h1>
+
+<p>到此,你已经掌握了创建和维护一个Cocoapods公有仓库的技能了，是不是很棒~</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/07/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E6%A0%91%E7%8A%B6(tree)%E6%98%BE%E7%A4%BA/" data-toggle="tooltip" data-placement="top" title="文件目录树状(tree)显示">
+                        Previous<br>
+                        <span>文件目录树状(tree)显示</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/03/10/CocoaPods%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E7%9A%84%E5%88%9B%E5%BB%BA/" data-toggle="tooltip" data-placement="top" title="CocoaPods私有仓库的创建">
+                        Next<br>
+                        <span>CocoaPods私有仓库的创建</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- 引入Gitalk评论插件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <!-- 引入一个生产md5的js，用于对id值进行处理，防止其过长 -->
+                <!-- Thank DF:https://github.com/NSDingFan/NSDingFan.github.io/issues/3#issuecomment-407496538 -->
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                    clientID: 'f2c84e7629bb1446c1a4',
+                    clientSecret: 'ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d',
+                    repo: 'qiubaiying.github.io',
+                    owner: 'qiubaiying',
+                    admin: ['qiubaiying'],
+                    distractionFreeMode: true,
+                    id: md5(location.pathname),
+                    });
+                    gitalk.render('gitalk-container');
+                </script>
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#iOS" title="iOS" rel="36">
+                                    iOS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#开发技巧" title="开发技巧" rel="7">
+                                    开发技巧
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Debug" title="Debug" rel="2">
+                                    Debug
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Obj-C" title="Obj-C" rel="3">
+                                    Obj-C
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="10">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ReactiveCocoa" title="ReactiveCocoa" rel="2">
+                                    ReactiveCocoa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#函数式编程" title="函数式编程" rel="2">
+                                    函数式编程
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开源框架" title="开源框架" rel="2">
+                                    开源框架
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Runtime" title="Runtime" rel="2">
+                                    Runtime
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#生活" title="生活" rel="5">
+                                    生活
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Blog" title="Blog" rel="2">
+                                    Blog
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Mac" title="Mac" rel="8">
+                                    Mac
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#效率" title="效率" rel="3">
+                                    效率
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#终端" title="终端" rel="7">
+                                    终端
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Git" title="Git" rel="5">
+                                    Git
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Swift" title="Swift" rel="9">
+                                    Swift
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#CocoaPods" title="CocoaPods" rel="2">
+                                    CocoaPods
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#zsh" title="zsh" rel="2">
+                                    zsh
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#开源库" title="开源库" rel="2">
+                                    开源库
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ruby" title="ruby" rel="3">
+                                    ruby
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#shell" title="shell" rel="2">
+                                    shell
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#健身" title="健身" rel="3">
+                                    健身
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://johnny1882.github.io">JY</a></li>
+                    
+                        <li><a href="https://apple.com">Apple</a></li>
+                    
+                        <li><a href="https://developer.apple.com/">Apple Developer</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/xuhpan2028">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; About 2025
+                    <br>
+                    Theme on <a href="https://github.com/xuhpan2028/xuhpan2028.github.io">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=xuhpan2028&repo=xuhpan2028.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-90855596-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'b50bf2b12b5338a1845e33832976fd68';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -7,23 +7,8 @@ author_profile: true
 
 ## About Me
 
-Welcome to my personal website! I'm excited to share my thoughts, projects, and experiences with you.
+Welcome to Harry's Blog! I’m Harry, an AI enthusiast with a background in **Bachelor in Electronic and Information Engineering from Imperial College London** and currently pursuing a **Master’s in Computer Science (AI) at the University of Southern California, Los Angeles**. I’m passionate about artificial intelligence, and computing related fields, and on this blog, I’ll be sharing my projects and thoughts on how AI is shaping our world.
 
-This site is built with Jekyll and hosted on GitHub Pages, using the beautiful Minimal Mistakes theme. Here you'll find:
-
-- **Blog posts** about technology, programming, and life
-- **Projects** I'm working on
-- **Resources** and tutorials I've found helpful
-
-## What I Do
-
-I'm passionate about technology and enjoy exploring new tools and frameworks. This website serves as my digital space to share knowledge and connect with others in the tech community.
-
-## Get in Touch
-
-Feel free to reach out if you have any questions or just want to chat! You can find me on:
-
-- [GitHub](https://github.com/xuhpan2028)
-- Email: [your.email@example.com](mailto:your.email@example.com)
+You can download my CV here: [Download CV](/assets/documents/cv.pdf), and find more on the [Posts](/) page.
 
 Thanks for visiting!

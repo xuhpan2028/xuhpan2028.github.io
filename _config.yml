@@ -17,10 +17,10 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 # Site Settings
 locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Your Name's Blog"
+title                    : "Harry's Blog"
 title_separator          : "-"
 subtitle                 : "Welcome to my personal website"
-name                     : "Your Name"
+name                     : "Harry"
 description              : "Personal blog and portfolio website."
 url                      : "https://xuhpan2028.github.io"
 baseurl                  : ""
@@ -113,15 +113,15 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : "Harry"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  bio              : "Don't look back, you are not going that way"
+  location         : "中国深圳 (Shenzhen, China)"
+  email            : "xuhpan2027@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "mailto:xuhpan2027@gmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"

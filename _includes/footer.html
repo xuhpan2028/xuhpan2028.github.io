@@ -1,0 +1,25 @@
+{% include base_path %}
+
+{% if site.author.github or site.author.bitbucket or site.atom_feed.hide != true %}
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    {% if site.data.ui-text[site.locale].follow_label %}
+      <li><strong data-i18n-en="{{ site.data.ui-text[site.locale].follow_label | default: 'Follow:' }}" data-i18n-zh="关注：">{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
+    {% endif %}
+    {% if site.author.github %}
+      <li><a href="https://github.com/{{ site.author.github }}"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    {% endif %}
+    {% if site.author.bitbucket %}
+      <li><a href="https://bitbucket.org/{{ site.author.bitbucket }}"><i class="fab fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    {% endif %}
+    {% if site.atom_feed.hide != true %}
+    <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ base_path }}/feed.xml{% endif %}"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> <span data-i18n-en="Feed" data-i18n-zh="订阅源">{{ site.data.ui-text[site.locale].feed_label | default: "Feed" }}</span></a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="page__footer-copyright">
+  &copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}, <span data-i18n-en="Powered by" data-i18n-zh="基于">{{ site.data.ui-text[site.locale].powered_by | default: "Powered by" }}</span> <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, <span data-i18n-en="a fork of" data-i18n-zh="由此项目衍生：">a fork of</span> <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  <span data-i18n-en="Site last updated" data-i18n-zh="网站最后更新">Site last updated</span> {{ "now" | date: '%Y-%m-%d' }}
+</div>

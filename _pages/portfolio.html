@@ -1,0 +1,32 @@
+---
+layout: archive
+title: "Portfolio"
+title_zh: "项目"
+permalink: /portfolio/
+author_profile: true
+---
+
+{% include base_path %}
+
+<div class="bilingual-page" data-bilingual-root data-lang="en">
+  <div class="lang-panel lang-panel--en" lang="en">
+    <p>Selected projects from internships, USC coursework, Imperial College engineering work, and independent AI systems. Each project page expands the implementation details and the core algorithms behind the work.</p>
+  </div>
+  <div class="lang-panel lang-panel--zh" lang="zh">
+    <p>这里整理了我在实习、南加州大学课程、帝国理工工程项目和独立 AI 系统中的代表性项目。每个项目页面都进一步说明实现细节和其中的重要算法。</p>
+  </div>
+</div>
+
+{% assign ml_visualization_url = "/portfolio/ml-visualization/" %}
+
+{% for post in site.portfolio %}
+  {% if post.url == ml_visualization_url %}
+    {% include archive-single.html %}
+  {% endif %}
+{% endfor %}
+
+{% for post in site.portfolio %}
+  {% unless post.url == ml_visualization_url %}
+    {% include archive-single.html %}
+  {% endunless %}
+{% endfor %}

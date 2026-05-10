@@ -1,0 +1,39 @@
+---
+title: "Clustering, GMMs & EM"
+title_zh: "聚类、GMM 与 EM"
+excerpt: "Interactive clustering lab comparing hard K-means assignments with soft Gaussian mixture responsibilities."
+excerpt_zh: "比较 K-means 硬分配和高斯混合软责任的聚类交互实验室。"
+collection: portfolio
+permalink: /portfolio/ml-visualization/clustering-em/
+---
+
+<div class="bilingual-page" data-bilingual-root data-lang="en">
+  <section class="lang-panel lang-panel--en" lang="en">
+    <p>K-means uses hard assignments: every point belongs to exactly one cluster. Gaussian mixture models use soft responsibilities: a point can partially belong to multiple components.</p>
+    <h2>Algorithm intuition</h2>
+    <ul>
+      <li><strong>K-means:</strong> assign to nearest centroid, then move each centroid to its assigned mean.</li>
+      <li><strong>EM:</strong> estimate responsibilities in the E-step, then update component parameters in the M-step.</li>
+      <li><strong>Softness:</strong> larger covariance creates more overlap between mixture components.</li>
+    </ul>
+  </section>
+  <section class="lang-panel lang-panel--zh" lang="zh">
+    <p>K-means 使用硬分配：每个点只属于一个簇。高斯混合模型使用软分配：一个点可以同时部分属于多个高斯成分。</p>
+    <h2>算法直觉</h2>
+    <ul>
+      <li><strong>K-means：</strong> 分配到最近中心点，再把中心点移动到样本均值。</li>
+      <li><strong>EM：</strong> E 步估计责任权重，M 步更新模型参数。</li>
+      <li><strong>Softness：</strong> 协方差越大，成分之间重叠越明显。</li>
+    </ul>
+  </section>
+
+  <section class="sim-lab">
+    <h2><span data-i18n-en="GMM responsibilities" data-i18n-zh="GMM 软责任">GMM responsibilities</span></h2>
+    <div class="sim-card">
+      <canvas data-em-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Softness" data-i18n-zh="软分配强度">Softness</span> <input data-em-softness type="range" min="5" max="45" value="20"> <span data-em-softness-value>1.00</span></label>
+      </div>
+    </div>
+  </section>
+</div>

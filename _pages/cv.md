@@ -7,6 +7,12 @@ author_profile: true
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
+<section class="cv-downloads" aria-label="CV downloads">
+  <a class="btn" href="/files/pan-xuhan-cv-en.html" download><span data-i18n-en="Download One-page CV (English)" data-i18n-zh="下载一页英文简历">Download One-page CV (English)</span></a>
+  <a class="btn" href="/files/pan-xuhan-cv-zh.html" download><span data-i18n-en="Download One-page CV (Chinese)" data-i18n-zh="下载一页中文简历">Download One-page CV (Chinese)</span></a>
+  <a class="btn btn--inverse" href="/files/pan-xuhan-cv-en.html"><span data-i18n-en="View printable CV" data-i18n-zh="查看可打印简历">View printable CV</span></a>
+</section>
+
 <section class="lang-panel lang-panel--en" lang="en" markdown="1">
 
 ## Education

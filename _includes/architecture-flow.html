@@ -1,0 +1,9 @@
+{% assign flow_steps = include.steps | split: "|" %}
+<div class="architecture-flow" role="img" aria-label="{{ include.title | strip_html }}">
+  <div class="architecture-flow__title">{{ include.title }}</div>
+  <div class="architecture-flow__steps">
+    {% for step in flow_steps %}
+      <div class="architecture-flow__step">{{ step }}</div>
+    {% endfor %}
+  </div>
+</div>

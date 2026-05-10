@@ -5,6 +5,13 @@ excerpt: "GAN-based computer fault detection research with transfer learning and
 excerpt_zh: "基于 GAN 的计算机故障检测研究，结合迁移学习，并调研 CNN、RNN、VAE 和强化学习方法。"
 collection: portfolio
 permalink: /portfolio/deep-learning-fault-detection/
+badges:
+  - en: "Research Notes"
+    zh: "研究笔记"
+  - en: "Anomaly Detection"
+    zh: "异常检测"
+  - en: "GAN"
+    zh: "GAN"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -15,6 +22,8 @@ This project came from my Imperial College research work on deep learning method
 ## Research Motivation
 
 Fault detection is often difficult because real failure data is sparse, noisy, and expensive to label. A useful model must distinguish normal operational variation from true abnormal behavior, while adapting across machines or environments where the data distribution can shift.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Telemetry or fault signals|Normal-behavior representation|GAN/VAE/CNN/RNN models|Anomaly score|Transfer adaptation|Alert or diagnosis output" %}
 
 ## Important Algorithms
 
@@ -33,6 +42,22 @@ Fault detection is often difficult because real failure data is sparse, noisy, a
 **VAE representation learning.** Variational autoencoders learn a compressed latent representation and reconstruct the input. High reconstruction error can indicate an anomalous sample, especially when the VAE is trained primarily on normal behavior.
 
 **Reinforcement-learning perspective.** Reinforcement learning was surveyed as a decision-optimization direction, especially for systems where detection can be tied to actions such as alerting, diagnosis, or adaptive maintenance.
+
+## Algorithm Notes
+
+<details class="algorithm-note">
+<summary>Anomaly detection depends on the definition of normal</summary>
+<div class="algorithm-note__content" markdown="1">
+GAN and VAE approaches work best when the training distribution represents normal behavior clearly. If the normal set contains hidden faults or several incompatible operating modes, reconstruction error and discriminator scores become harder to interpret.
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>WGAN addresses training instability, not labeling scarcity by itself</summary>
+<div class="algorithm-note__content" markdown="1">
+The Wasserstein objective can make GAN optimization smoother, but it does not remove the need for representative normal data. In fault detection, stable training and careful dataset construction have to be treated as separate problems.
+</div>
+</details>
 
 ## Outcome
 
@@ -53,6 +78,8 @@ GAN, CGAN, ACGAN, WGAN, transfer learning, CNN, RNN, VAE, reinforcement learning
 
 故障检测困难在于真实故障数据稀缺、噪声大且标注成本高。有效模型需要区分正常运行波动和真正异常，同时适应不同机器或环境中的分布变化。
 
+{% include architecture-flow.html title="架构图" steps="遥测或故障信号|正常行为表示|GAN/VAE/CNN/RNN 模型|异常分数|迁移适配|告警或诊断输出" %}
+
 ## 重要算法
 
 **GAN 异常检测。** GAN 包含相互博弈的生成器和判别器。用于故障检测时，生成器学习正常行为分布，判别器或重构误差可以暴露不符合正常模式的样本，尤其适合标注故障样本有限的场景。
@@ -70,6 +97,22 @@ GAN, CGAN, ACGAN, WGAN, transfer learning, CNN, RNN, VAE, reinforcement learning
 **VAE 表示学习。** VAE 学习压缩潜变量并重构输入。若模型主要在正常数据上训练，高重构误差可作为异常信号。
 
 **强化学习视角。** 调研中也关注了把检测与告警、诊断、自适应维护等动作连接起来的决策优化方向。
+
+## 算法笔记
+
+<details class="algorithm-note">
+<summary>异常检测取决于对正常状态的定义</summary>
+<div class="algorithm-note__content" markdown="1">
+GAN 和 VAE 方法在训练分布能清晰代表正常行为时效果最好。如果正常集合中混入隐藏故障，或包含多个互不兼容的运行模式，重构误差和判别器分数都会更难解释。
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>WGAN 改善训练稳定性，但不能单独解决标注稀缺</summary>
+<div class="algorithm-note__content" markdown="1">
+Wasserstein 目标可以让 GAN 优化更平滑，但不代表可以不需要有代表性的正常数据。在故障检测中，稳定训练和谨慎构造数据集是两个需要分别处理的问题。
+</div>
+</details>
 
 ## 结果
 

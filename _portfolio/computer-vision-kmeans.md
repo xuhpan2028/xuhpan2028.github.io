@@ -5,6 +5,13 @@ excerpt: "Texture classification, segmentation, SIFT matching, and Bag-of-Words 
 excerpt_zh: "使用 K-means 完成纹理分类、图像分割、SIFT 匹配和 Bag-of-Words 码本构建。"
 collection: portfolio
 permalink: /portfolio/computer-vision-kmeans/
+badges:
+  - en: "Course Project"
+    zh: "课程项目"
+  - en: "Classic CV"
+    zh: "传统计算机视觉"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -13,6 +20,8 @@ permalink: /portfolio/computer-vision-kmeans/
 This USC EE569 project connected classical computer vision feature engineering with unsupervised learning and classifier comparison.
 
 The project was useful because it forced the full classical vision pipeline to be explicit: create features by hand, reduce or cluster those features, then compare how unsupervised and supervised methods behave on texture and matching tasks.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Image dataset|Texture/SIFT features|PCA projection|K-means codebook|SVM comparison|Segmentation or matching output" %}
 
 ## Feature Pipeline
 
@@ -34,6 +43,22 @@ The project was useful because it forced the full classical vision pipeline to b
 
 **SIFT Bag-of-Words.** SIFT descriptors were quantized into an 8-bin visual vocabulary using K-means. Each image can then be represented by a histogram of visual-word occurrences, which turns local keypoint descriptors into a fixed-length feature vector for matching or classification.
 
+## Algorithm Notes
+
+<details class="algorithm-note">
+<summary>K-means is sensitive to feature scale</summary>
+<div class="algorithm-note__content" markdown="1">
+Texture energy, PCA coordinates, and SIFT descriptors can live on different numeric scales. Before K-means, normalization is not just preprocessing polish; it changes the geometry of the nearest-centroid assignment and can decide which visual patterns become codebook words.
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>Bag-of-Words trades geometry for a compact histogram</summary>
+<div class="algorithm-note__content" markdown="1">
+The SIFT Bag-of-Words pipeline ignores exact keypoint layout after quantization. That makes image comparison simple and robust to local changes, but it also loses spatial relationships that would be useful for fine-grained matching.
+</div>
+</details>
+
 ## Technical Stack
 
 K-means, PCA, SVM, SIFT, Laws features, MATLAB, image segmentation.
@@ -44,6 +69,8 @@ K-means, PCA, SVM, SIFT, Laws features, MATLAB, image segmentation.
 这个 USC EE569 项目把传统计算机视觉特征工程、无监督学习和分类器对比连接在一起。
 
 项目价值在于把完整的传统视觉管线显式展开：手工构造特征，降维或聚类，然后比较无监督和监督方法在纹理与匹配任务上的表现。
+
+{% include architecture-flow.html title="架构图" steps="图像数据集|纹理/SIFT 特征|PCA 投影|K-means 码本|SVM 对比|分割或匹配输出" %}
 
 ## 特征流程
 
@@ -64,6 +91,22 @@ K-means, PCA, SVM, SIFT, Laws features, MATLAB, image segmentation.
 **SVM 分类。** SVM 是监督对比方法。与不使用标签的 K-means 不同，SVM 学习最大化类别间隔的决策边界，对比两者能清楚体现无监督结构与监督判别能力的差异。
 
 **SIFT Bag-of-Words。** SIFT 描述子通过 K-means 量化成 8 个视觉词，每张图像再表示为视觉词直方图，把局部关键点描述转成固定长度特征向量。
+
+## 算法笔记
+
+<details class="algorithm-note">
+<summary>K-means 对特征尺度敏感</summary>
+<div class="algorithm-note__content" markdown="1">
+纹理能量、PCA 坐标和 SIFT 描述子可能处在不同数值尺度上。K-means 前的归一化不只是预处理细节；它会改变最近中心分配的几何结构，并影响哪些视觉模式成为码本词。
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>Bag-of-Words 用紧凑直方图换取空间信息</summary>
+<div class="algorithm-note__content" markdown="1">
+SIFT Bag-of-Words 在量化后忽略关键点的精确空间布局。这让图像比较更简单，也更能容忍局部变化，但会损失对细粒度匹配有用的空间关系。
+</div>
+</details>
 
 ## 技术栈
 

@@ -5,6 +5,13 @@ excerpt: "Interactive kernel classification demo for margin-style separation and
 excerpt_zh: "用于理解间隔分类和 RBF 局部性的核分类交互演示。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/svm-kernels/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Kernel Method"
+    zh: "核方法"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -25,6 +32,15 @@ permalink: /portfolio/ml-visualization/svm-kernels/
       <li><strong>RBF 核：</strong> 近距离样本相似度高，远距离样本影响小。</li>
       <li><strong>Gamma：</strong> gamma 越高，边界越局部、越灵活。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes">
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="C trades margin violations against smoothness" data-i18n-zh="C 在间隔违规和平滑性之间权衡">C trades margin violations against smoothness</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="A small C tolerates more margin violations and usually gives a smoother boundary. A large C punishes mistakes strongly, so the model bends harder around difficult samples and becomes more sensitive to outliers." data-i18n-zh="较小的 C 容忍更多间隔违规，通常得到更平滑的边界。较大的 C 会强烈惩罚错误，因此模型更容易围绕困难样本弯曲，也更容易受离群点影响。">A small C tolerates more margin violations and usually gives a smoother boundary. A large C punishes mistakes strongly, so the model bends harder around difficult samples and becomes more sensitive to outliers.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">

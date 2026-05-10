@@ -36,6 +36,8 @@
       {% if author.email %}
         <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i><span data-i18n-en="Email" data-i18n-zh="邮箱">{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</span></a></li>
       {% endif %}
+      <li><a href="{{ "/files/pan-xuhan-cv-en.html" | prepend: base_path }}" download><i class="fas fa-fw fa-file-arrow-down icon-pad-right" aria-hidden="true"></i><span data-i18n-en="Download CV (EN)" data-i18n-zh="下载英文简历">Download CV (EN)</span></a></li>
+      <li><a href="{{ "/files/pan-xuhan-cv-zh.html" | prepend: base_path }}" download><i class="fas fa-fw fa-file-arrow-down icon-pad-right" aria-hidden="true"></i><span data-i18n-en="Download CV (ZH)" data-i18n-zh="下载中文简历">Download CV (ZH)</span></a></li>
 
       <!-- Font Awesome and Academicons icons / Academic websites -->
       {% if author.academia %}

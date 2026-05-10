@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pan Xuhan - One-page CV</title>
+  <style>
+    body { margin: 0; background: #f4f5f7; color: #202124; font: 13px/1.42 Arial, Helvetica, sans-serif; }
+    main { max-width: 820px; margin: 24px auto; padding: 34px 42px; background: #fff; box-shadow: 0 8px 28px rgba(0, 0, 0, .08); }
+    h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: 0; }
+    h2 { margin: 18px 0 7px; padding-bottom: 3px; border-bottom: 1px solid #d7dce2; font-size: 15px; text-transform: uppercase; letter-spacing: .03em; }
+    h3 { margin: 10px 0 2px; font-size: 14px; }
+    p { margin: 3px 0; }
+    ul { margin: 4px 0 0 18px; padding: 0; }
+    li { margin: 2px 0; }
+    .meta { color: #4b5563; }
+    .row { display: flex; justify-content: space-between; gap: 18px; }
+    .item { break-inside: avoid; }
+    .skills strong { display: inline-block; min-width: 92px; }
+    @media print {
+      body { background: #fff; }
+      main { margin: 0; padding: 18mm 16mm; box-shadow: none; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Pan Xuhan</h1>
+  <p class="meta">AI / LLM Algorithm Engineer | Los Angeles / Shenzhen | xuhpan2027@gmail.com | github.com/xuhpan2028</p>
+
+  <h2>Education</h2>
+  <div class="item">
+    <div class="row"><h3>Imperial College London - B.Eng. Electronic and Information Engineering</h3><p>2021 - 2024</p></div>
+    <p>GPA: 3.9/4.0. Coursework: machine learning, computer architecture, software systems, control, signal processing.</p>
+  </div>
+  <div class="item">
+    <div class="row"><h3>University of Southern California - M.S. Computer Science, Artificial Intelligence</h3><p>2024 - 2026</p></div>
+    <p>GPA: 3.8/4.0. Coursework: AI, deep learning, large language models, computer vision, web technologies.</p>
+  </div>
+
+  <h2>Experience</h2>
+  <div class="item">
+    <div class="row"><h3>Large Language Model Algorithm Intern - Shenzhen Banying Suixing Technology</h3><p>Jun. 2025 - Sep. 2025</p></div>
+    <ul>
+      <li>Built low-latency finger-reading with MediaPipe hand landmarks, PaddleOCR, and ESP32-CAM video input.</li>
+      <li>Integrated OCR, LLM response planning, and fish-speech streaming TTS for an AI companion and learning terminal.</li>
+      <li>Improved speech-service concurrency by 70% through streaming processing and service-level optimization.</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="row"><h3>Backend Developer Intern - Tencent AI Arena</h3><p>Jul. 2023 - Sep. 2023</p></div>
+    <ul>
+      <li>Developed backend services for an education game platform serving about 100,000 active programming learners.</li>
+      <li>Used Prefix Tuning to constrain LLM outputs into fixed-format commands for text-driven interface editing.</li>
+      <li>Applied Policy Gradient reinforcement learning to train football-simulation AI players for higher difficulty levels.</li>
+    </ul>
+  </div>
+
+  <h2>Selected Projects</h2>
+  <div class="item">
+    <h3>Multimodal Sarcasm Recognition</h3>
+    <p>Built MUStARD-based text, audio, and video pipelines; fine-tuned Transformer models with dialogue context; compared fusion strategies using macro-F1 and improved accuracy by 5%.</p>
+  </div>
+  <div class="item">
+    <h3>Real Estate Demand Forecasting</h3>
+    <p>Designed lag and rolling-window features; compared XGBoost, LightGBM, TFT, seasonal baselines, and weighted ensembles for monthly demand prediction.</p>
+  </div>
+  <div class="item">
+    <h3>Computer Vision K-Means Lab</h3>
+    <p>Implemented Laws texture features, PCA, K-means segmentation, SVM classification, SIFT matching, and Bag-of-Words codebooks.</p>
+  </div>
+  <div class="item">
+    <h3>Deep Learning Fault Detection Research</h3>
+    <p>Surveyed GAN, CGAN, ACGAN, WGAN, CNN, RNN, VAE, reinforcement learning, and transfer learning for anomaly detection.</p>
+  </div>
+
+  <h2>Skills</h2>
+  <p class="skills"><strong>Languages:</strong> Python, Java, C++, C#, F#, Verilog, JavaScript, Bash</p>
+  <p class="skills"><strong>AI / ML:</strong> PyTorch, Transformers, LLM prompting and tuning, RL, computer vision, multimodal learning, TTS, OCR</p>
+  <p class="skills"><strong>Systems:</strong> Node.js, React, Angular, MongoDB, SQL, Docker, Git, AWS, MATLAB, Quartus Prime</p>
+</main>
+</body>
+</html>

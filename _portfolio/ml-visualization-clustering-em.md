@@ -5,6 +5,13 @@ excerpt: "Interactive clustering lab comparing hard K-means assignments with sof
 excerpt_zh: "比较 K-means 硬分配和高斯混合软责任的聚类交互实验室。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/clustering-em/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Clustering"
+    zh: "聚类"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -25,6 +32,15 @@ permalink: /portfolio/ml-visualization/clustering-em/
       <li><strong>EM：</strong> E 步估计责任权重，M 步更新模型参数。</li>
       <li><strong>Softness：</strong> 协方差越大，成分之间重叠越明显。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes">
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="Hard clusters vs. probabilistic responsibility" data-i18n-zh="硬聚类与概率责任">Hard clusters vs. probabilistic responsibility</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="K-means commits each point to one centroid, so uncertainty disappears after assignment. EM keeps a responsibility vector, which is more informative when clusters overlap or when a sample lies near a boundary between components." data-i18n-zh="K-means 会把每个样本直接分给一个中心点，分配后不确定性消失。EM 保留责任向量，当簇有重叠或样本位于成分边界附近时，这种表示更有信息量。">K-means commits each point to one centroid, so uncertainty disappears after assignment. EM keeps a responsibility vector, which is more informative when clusters overlap or when a sample lies near a boundary between components.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">

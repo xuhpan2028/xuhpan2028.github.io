@@ -5,6 +5,13 @@ excerpt: "Interactive browser labs for classic machine learning algorithms, with
 excerpt_zh: "经典机器学习算法的浏览器交互实验室，包含双语说明和可调参数控件。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Teaching Hub"
+    zh: "教学中心"
 ---
 
 <div class="bilingual-page mlviz-page" data-bilingual-root data-lang="en">
@@ -52,6 +59,31 @@ permalink: /portfolio/ml-visualization/
           <td>Decision trees</td>
           <td>Connect split rules to impurity reduction and overfitting control.</td>
           <td>Depth, min samples, feature choice.</td>
+        </tr>
+        <tr>
+          <td>Transformer attention</td>
+          <td>Inspect token-to-token attention as locality and sharpness change.</td>
+          <td>Attention temperature, local/global context.</td>
+        </tr>
+        <tr>
+          <td>RAG retrieval</td>
+          <td>Show how a query selects context chunks before answer generation.</td>
+          <td>Query intent and retrieval top-k.</td>
+        </tr>
+        <tr>
+          <td>LoRA fine-tuning</td>
+          <td>Compare trainable adapter rank with parameter cost and task fit.</td>
+          <td>Rank, training steps, expected saturation.</td>
+        </tr>
+        <tr>
+          <td>CNN feature maps</td>
+          <td>Reveal how small kernels respond to edges, blur, and sharpening filters.</td>
+          <td>Kernel type and activation threshold.</td>
+        </tr>
+        <tr>
+          <td>Speech spectrogram</td>
+          <td>Connect pitch/energy patterns to simple speech-intent classification.</td>
+          <td>Pitch contour and speaking energy.</td>
         </tr>
       </tbody>
     </table>
@@ -123,6 +155,31 @@ permalink: /portfolio/ml-visualization/
           <td>把划分规则、纯度提升和过拟合控制联系起来。</td>
           <td>树深度、最小样本数、特征选择。</td>
         </tr>
+        <tr>
+          <td>Transformer 注意力</td>
+          <td>观察局部性和 sharpness 如何改变 token 之间的注意力。</td>
+          <td>注意力温度、局部/全局上下文。</td>
+        </tr>
+        <tr>
+          <td>RAG 检索</td>
+          <td>展示查询如何先选择上下文片段，再进入回答生成。</td>
+          <td>查询意图、检索 top-k。</td>
+        </tr>
+        <tr>
+          <td>LoRA 微调</td>
+          <td>比较 adapter rank 对可训练参数量和任务适配度的影响。</td>
+          <td>Rank、训练步数、效果饱和。</td>
+        </tr>
+        <tr>
+          <td>CNN 特征图</td>
+          <td>展示小卷积核对边缘、模糊和锐化模式的响应。</td>
+          <td>卷积核类型、激活阈值。</td>
+        </tr>
+        <tr>
+          <td>语音频谱图</td>
+          <td>把音高/能量模式与简单语音意图分类联系起来。</td>
+          <td>音高轮廓、说话能量。</td>
+        </tr>
       </tbody>
     </table>
 
@@ -146,6 +203,38 @@ permalink: /portfolio/ml-visualization/
       <li><a href="/portfolio/multimodal-sarcasm/">Multimodal Sarcasm Recognition</a>：覆盖 Transformer 编码、音频/文本/视频融合和 macro-F1 评估。</li>
       <li><a href="/portfolio/deep-learning-fault-detection/">Deep Learning Fault Detection Research</a>：总结 GAN 异常检测、迁移学习、CNN/RNN/VAE 方法和 RL 视角。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes" aria-labelledby="algorithm-notes-title">
+    <h2 id="algorithm-notes-title"><span data-i18n-en="Algorithm Notes" data-i18n-zh="算法笔记">Algorithm Notes</span></h2>
+
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="K-means: why K is not just a slider" data-i18n-zh="K-means：为什么 K 不只是一个滑块">K-means: why K is not just a slider</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="K-means optimizes compact spherical clusters, so a lower inertia is not automatically a better model. Increasing K almost always lowers inertia; the useful question is whether the new centroid explains real structure or only splits one natural group into smaller pieces." data-i18n-zh="K-means 优化的是紧凑的球状簇，因此 inertia 更低不一定代表模型更好。增大 K 通常都会降低 inertia，关键问题是新增中心点是否解释了真实结构，还是只是把一个自然簇拆得更碎。">K-means optimizes compact spherical clusters, so a lower inertia is not automatically a better model. Increasing K almost always lowers inertia; the useful question is whether the new centroid explains real structure or only splits one natural group into smaller pieces.</p>
+      </div>
+    </details>
+
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="SVM: gamma controls locality" data-i18n-zh="SVM：gamma 控制局部性">SVM: gamma controls locality</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="With an RBF kernel, gamma controls how quickly similarity decays with distance. Low gamma produces broad influence and smoother boundaries; high gamma lets individual points shape tight local regions, which can fit training data well while generalizing poorly." data-i18n-zh="在 RBF 核中，gamma 控制相似度随距离衰减的速度。低 gamma 让样本影响更宽、边界更平滑；高 gamma 让单个样本形成很局部的区域，可能训练集效果好但泛化差。">With an RBF kernel, gamma controls how quickly similarity decays with distance. Low gamma produces broad influence and smoother boundaries; high gamma lets individual points shape tight local regions, which can fit training data well while generalizing poorly.</p>
+      </div>
+    </details>
+
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="RAG: retrieval quality caps answer quality" data-i18n-zh="RAG：检索质量决定回答上限">RAG: retrieval quality caps answer quality</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="A generation model cannot reliably use facts that never enter its context window. In RAG systems, top-k, chunk size, embedding quality, and reranking often matter as much as the final prompt because they decide what evidence the model can see." data-i18n-zh="生成模型无法稳定利用没有进入上下文窗口的事实。在 RAG 系统中，top-k、切块大小、embedding 质量和 rerank 往往和最终 prompt 一样关键，因为它们决定模型能看到什么证据。">A generation model cannot reliably use facts that never enter its context window. In RAG systems, top-k, chunk size, embedding quality, and reranking often matter as much as the final prompt because they decide what evidence the model can see.</p>
+      </div>
+    </details>
+
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="LoRA: rank is capacity, not free accuracy" data-i18n-zh="LoRA：rank 是容量，不是免费精度">LoRA: rank is capacity, not free accuracy</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="LoRA constrains the update matrix to a low-rank product. Raising rank gives the adapter more expressive power, but also more trainable parameters and a higher risk of memorizing a narrow dataset. The useful rank is the smallest one that captures the task shift." data-i18n-zh="LoRA 把权重更新限制为低秩矩阵乘积。提高 rank 会增加 adapter 表达能力，但也增加可训练参数和记忆小数据集的风险。合适的 rank 通常是能覆盖任务变化的最小值。">LoRA constrains the update matrix to a low-rank product. Raising rank gives the adapter more expressive power, but also more trainable parameters and a higher risk of memorizing a narrow dataset. The useful rank is the smallest one that captures the task shift.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">
@@ -184,11 +273,73 @@ permalink: /portfolio/ml-visualization/
     </div>
   </section>
 
+  <section class="sim-lab">
+    <h2><span data-i18n-en="Transformer Attention Visualizer" data-i18n-zh="Transformer 注意力可视化">Transformer Attention Visualizer</span></h2>
+    <p data-i18n-en="The heatmap approximates how a self-attention head redistributes focus across tokens. Lower temperature creates sharp attention; higher context bias makes nearby tokens dominate." data-i18n-zh="这个热力图近似展示一个 self-attention head 如何在 token 之间分配注意力。温度越低，注意力越尖锐；局部偏置越强，附近 token 越占主导。">The heatmap approximates how a self-attention head redistributes focus across tokens. Lower temperature creates sharp attention; higher context bias makes nearby tokens dominate.</p>
+    <div class="sim-card">
+      <canvas data-attention-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Temperature" data-i18n-zh="温度">Temperature</span> <input data-attention-temp type="range" min="8" max="90" value="34"> <span data-attention-temp-value>0.34</span></label>
+        <label><span data-i18n-en="Local bias" data-i18n-zh="局部偏置">Local bias</span> <input data-attention-local type="range" min="0" max="100" value="36"> <span data-attention-local-value>36%</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="sim-lab">
+    <h2><span data-i18n-en="RAG Retrieval Playground" data-i18n-zh="RAG 检索实验">RAG Retrieval Playground</span></h2>
+    <p data-i18n-en="Retrieval-augmented generation works only if the right chunks are pulled before generation. Move the query intent slider to watch the top documents change." data-i18n-zh="RAG 的效果取决于生成前是否检索到正确片段。拖动查询意图滑块，可以看到 top 文档如何变化。">Retrieval-augmented generation works only if the right chunks are pulled before generation. Move the query intent slider to watch the top documents change.</p>
+    <div class="sim-card">
+      <canvas data-rag-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Query intent" data-i18n-zh="查询意图">Query intent</span> <input data-rag-intent type="range" min="0" max="100" value="35"> <span data-rag-intent-label>LLM systems</span></label>
+        <label><span data-i18n-en="Top-k" data-i18n-zh="Top-k">Top-k</span> <input data-rag-topk type="range" min="1" max="5" value="3"> <span data-rag-topk-value>3</span></label>
+      </div>
+      <p class="sim-note"><strong><span data-i18n-en="Retrieved context" data-i18n-zh="检索上下文">Retrieved context</span>:</strong> <span data-rag-context></span></p>
+    </div>
+  </section>
+
+  <section class="sim-lab">
+    <h2><span data-i18n-en="LoRA Fine-Tuning Intuition" data-i18n-zh="LoRA 微调直觉">LoRA Fine-Tuning Intuition</span></h2>
+    <p data-i18n-en="LoRA trains small low-rank adapters instead of updating every base-model weight. Higher rank increases capacity and trainable parameters, but gains eventually saturate." data-i18n-zh="LoRA 训练低秩 adapter，而不是更新基础模型的全部权重。Rank 越高容量和可训练参数越多，但收益会逐渐饱和。">LoRA trains small low-rank adapters instead of updating every base-model weight. Higher rank increases capacity and trainable parameters, but gains eventually saturate.</p>
+    <div class="sim-card">
+      <canvas data-lora-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Adapter rank" data-i18n-zh="Adapter rank">Adapter rank</span> <input data-lora-rank type="range" min="1" max="32" value="8"> r = <span data-lora-rank-value>8</span></label>
+        <label><span data-i18n-en="Training steps" data-i18n-zh="训练步数">Training steps</span> <input data-lora-steps type="range" min="10" max="300" value="120"> <span data-lora-steps-value>120</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="sim-lab">
+    <h2><span data-i18n-en="CNN Feature-Map Viewer" data-i18n-zh="CNN 特征图查看器">CNN Feature-Map Viewer</span></h2>
+    <p data-i18n-en="A convolution kernel is a local pattern detector. Change the kernel and threshold to see how a simple image turns into an activation map." data-i18n-zh="卷积核本质上是局部模式检测器。切换卷积核和阈值，可以看到一张简单图像如何变成激活图。">A convolution kernel is a local pattern detector. Change the kernel and threshold to see how a simple image turns into an activation map.</p>
+    <div class="sim-card">
+      <canvas data-cnn-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Kernel" data-i18n-zh="卷积核">Kernel</span> <input data-cnn-kernel type="range" min="0" max="2" value="0"> <span data-cnn-kernel-label>Edge</span></label>
+        <label><span data-i18n-en="Threshold" data-i18n-zh="阈值">Threshold</span> <input data-cnn-threshold type="range" min="0" max="80" value="18"> <span data-cnn-threshold-value>18</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="sim-lab">
+    <h2><span data-i18n-en="Speech Spectrogram Classifier" data-i18n-zh="语音频谱分类器">Speech Spectrogram Classifier</span></h2>
+    <p data-i18n-en="Speech models often see spectrogram-like time-frequency features. Adjust pitch and energy to see how a toy classifier shifts between statement, question, and emphasis." data-i18n-zh="语音模型通常使用类似频谱图的时间-频率特征。调节音高和能量，观察玩具分类器如何在陈述、疑问和强调之间切换。">Speech models often see spectrogram-like time-frequency features. Adjust pitch and energy to see how a toy classifier shifts between statement, question, and emphasis.</p>
+    <div class="sim-card">
+      <canvas data-speech-canvas height="320"></canvas>
+      <div class="sim-controls">
+        <label><span data-i18n-en="Pitch rise" data-i18n-zh="音高上扬">Pitch rise</span> <input data-speech-pitch type="range" min="0" max="100" value="58"> <span data-speech-pitch-value>58%</span></label>
+        <label><span data-i18n-en="Energy" data-i18n-zh="能量">Energy</span> <input data-speech-energy type="range" min="10" max="100" value="62"> <span data-speech-energy-value>62%</span></label>
+      </div>
+      <p class="sim-note"><strong><span data-i18n-en="Prediction" data-i18n-zh="预测">Prediction</span>:</strong> <span data-speech-prediction></span></p>
+    </div>
+  </section>
+
   <section class="lang-panel lang-panel--en" lang="en">
     <h2 id="roadmap-snapshot">Roadmap snapshot</h2>
     <ol>
-      <li>Add PCA and SVM labs using the same control language.</li>
-      <li>Connect each visualization back to your USC and project experience pages.</li>
+      <li>Split the modern AI labs into dedicated pages when each demo has enough explanation.</li>
+      <li>Connect the Transformer, RAG, LoRA, CNN, and speech demos back to relevant internship and USC project pages.</li>
       <li>Keep the implementations lightweight enough to run on GitHub Pages without a backend.</li>
     </ol>
   </section>
@@ -196,8 +347,8 @@ permalink: /portfolio/ml-visualization/
   <section class="lang-panel lang-panel--zh" lang="zh">
     <h2 id="roadmap-snapshot-zh">后续规划</h2>
     <ol>
-      <li>继续加入 PCA 和 SVM 实验，并保持统一的交互控件。</li>
-      <li>把每个可视化实验和 USC 课程项目、个人经历页面对应起来。</li>
+      <li>当现代 AI demo 的解释足够完整后，拆分为独立页面。</li>
+      <li>把 Transformer、RAG、LoRA、CNN 和语音 demo 与实习和 USC 项目页面对应起来。</li>
       <li>保持纯前端实现，让页面可以直接部署在 GitHub Pages 上。</li>
     </ol>
   </section>

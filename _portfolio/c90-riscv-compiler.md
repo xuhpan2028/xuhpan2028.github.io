@@ -5,6 +5,13 @@ excerpt: "Compiler coursework implementing lexical analysis, parsing, AST constr
 excerpt_zh: "编译器课程项目，实现词法分析、语法分析、AST 构建和 RISC-V 汇编生成。"
 collection: portfolio
 permalink: /portfolio/c90-riscv-compiler/
+badges:
+  - en: "Systems Project"
+    zh: "系统项目"
+  - en: "Compiler"
+    zh: "编译器"
+  - en: "RISC-V"
+    zh: "RISC-V"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -18,6 +25,8 @@ This project was found under `~/langproc-2022-cw-crazy_Thursday_v50`. The course
 - Grammar parsing with a Bison/Yacc-style parser.
 - AST node structure split across declarations, operators, branches, loops, functions, primitives, unary expressions, and program-level nodes.
 - Code generation to RISC-V assembly that can be assembled, linked, and run under the provided toolchain.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="C90 source|Lexer tokens|Parser grammar|AST nodes|Stack/register layout|RISC-V assembly" %}
 
 ## Important Algorithms
 
@@ -46,6 +55,8 @@ C++, Flex, Bison/Yacc, AST design, compiler construction, RISC-V assembly, Docke
 - 使用 Bison/Yacc 风格 parser 做语法分析。
 - AST 节点覆盖声明、运算符、分支、循环、函数、基础类型、一元表达式和程序级结构。
 - 生成可由工具链汇编、链接和运行的 RISC-V 汇编。
+
+{% include architecture-flow.html title="架构图" steps="C90 源码|Lexer token|Parser 语法|AST 节点|栈/寄存器布局|RISC-V 汇编" %}
 
 ## 重要算法
 

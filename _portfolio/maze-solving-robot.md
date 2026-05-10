@@ -5,6 +5,13 @@ excerpt: "Second-year engineering design project for a two-wheel balancing robot
 excerpt_zh: "二年级工程设计项目：构建能够建图并导航迷宫的两轮平衡机器人。"
 collection: portfolio
 permalink: /portfolio/maze-solving-robot/
+badges:
+  - en: "Hardware System"
+    zh: "硬件系统"
+  - en: "Control"
+    zh: "控制"
+  - en: "Path Planning"
+    zh: "路径规划"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -17,6 +24,8 @@ This project was found under `~/Group-16`. It was an Imperial College second-yea
 - Built around an ESP32 control platform, MPU6050 IMU, stepper motors, motor drivers, and FPGA-based camera input.
 - Required two-wheel balancing, maze sensing, autonomous mapping, and navigation.
 - Included beacon-related system design under energy constraints.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="IMU + camera sensing|Complementary attitude estimate|Balance controller|Line/beacon correction|Maze graph mapping|Shortest-path navigation" %}
 
 ## Important Algorithms
 
@@ -44,6 +53,8 @@ ESP32, Arduino, MPU6050, stepper motors, A4988 motor drivers, FPGA camera system
 - 基于 ESP32 控制平台、MPU6050 IMU、步进电机、电机驱动和 FPGA 摄像头输入。
 - 需要实现两轮平衡、迷宫感知、自主建图和导航。
 - 包含能量约束下的信标相关系统设计。
+
+{% include architecture-flow.html title="架构图" steps="IMU + 摄像头感知|互补姿态估计|平衡控制器|线/信标校正|迷宫图建模|最短路径导航" %}
 
 ## 重要算法
 

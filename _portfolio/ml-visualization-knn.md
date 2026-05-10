@@ -5,6 +5,13 @@ excerpt: "Interactive K-nearest-neighbors classifier showing local voting and de
 excerpt_zh: "展示局部投票和决策边界变化的 K 近邻分类器交互演示。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/knn/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Lazy Learning"
+    zh: "惰性学习"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -25,6 +32,15 @@ permalink: /portfolio/ml-visualization/knn/
       <li><strong>投票：</strong> 预测类别由最近 K 个样本的多数类别决定。</li>
       <li><strong>K 值权衡：</strong> 小 K 边界更灵活，大 K 更平滑但可能欠拟合。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes">
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="Feature scaling matters" data-i18n-zh="特征缩放很关键">Feature scaling matters</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="KNN has no learned weights to compensate for mismatched feature units. If one feature has a much larger numeric range, Euclidean distance is dominated by that axis, so standardization is usually part of the algorithmic pipeline." data-i18n-zh="KNN 没有可学习权重来抵消特征单位差异。如果某个特征数值范围大很多，欧氏距离会被这个维度主导，因此标准化通常是算法流程的一部分。">KNN has no learned weights to compensate for mismatched feature units. If one feature has a much larger numeric range, Euclidean distance is dominated by that axis, so standardization is usually part of the algorithmic pipeline.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">

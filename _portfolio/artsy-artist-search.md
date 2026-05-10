@@ -5,6 +5,13 @@ excerpt: "Web and Android artist-search applications using Artsy-style search fl
 excerpt_zh: "基于 Artsy 搜索流程、REST API 和移动端状态管理的 Web 与 Android 艺术家搜索应用。"
 collection: portfolio
 permalink: /portfolio/artsy-artist-search/
+badges:
+  - en: "Web App"
+    zh: "网页应用"
+  - en: "Android App"
+    zh: "安卓应用"
+  - en: "REST API"
+    zh: "REST API"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -19,6 +26,8 @@ This project was found in `~/Desktop/usc/y1/571-2` and `~/AndroidStudioProjects/
 - Fetch selected artist details.
 - Preserve favorites and user-session state in the Android app.
 - Deploy the web service through Google App Engine.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Search UI|Flask API route|Artsy-style upstream request|Artist filtering|Detail/favorites state|Web or Android rendering" %}
 
 ## Important Algorithms and Design Patterns
 
@@ -48,6 +57,8 @@ Flask, JavaScript, HTML/CSS, Google App Engine, Kotlin, Android, REST APIs, asyn
 - 拉取选中艺术家的详情信息。
 - 在 Android 应用中保存收藏和用户会话状态。
 - 通过 Google App Engine 部署 Web 服务。
+
+{% include architecture-flow.html title="架构图" steps="搜索界面|Flask API 路由|Artsy 风格上游请求|艺术家结果过滤|详情/收藏状态|Web 或 Android 渲染" %}
 
 ## 重要算法与设计模式
 

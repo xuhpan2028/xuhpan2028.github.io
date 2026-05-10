@@ -35,6 +35,15 @@ layout: default
           {% if page.read_time %}
             <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>
           {% endif %}
+          {% if page.badges %}
+            <div class="portfolio-badges portfolio-badges--page" aria-label="Project badges">
+              {% for badge in page.badges %}
+                {% assign badge_en = badge.en | default: badge %}
+                {% assign badge_zh = badge.zh | default: badge_en %}
+                <span class="portfolio-badge" data-i18n-en="{{ badge_en | escape }}" data-i18n-zh="{{ badge_zh | escape }}">{{ badge_en }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
         {% if page.modified %}
           <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].date_label | default: "Published:" }}</strong> <time datetime="{{ page.modified | date: "%Y-%m-%d" }}">{{ page.modified | date: "%B %d, %Y" }}</time></p>
         {% endif %}

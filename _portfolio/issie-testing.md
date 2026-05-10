@@ -5,6 +5,13 @@ excerpt: "Random circuit generation and automated testing for ISSIE sheet beauti
 excerpt_zh: "为 ISSIE 原理图美化辅助功能构建随机电路生成和自动化测试。"
 collection: portfolio
 permalink: /portfolio/issie-testing/
+badges:
+  - en: "Testing"
+    zh: "测试"
+  - en: "Random Generation"
+    zh: "随机生成"
+  - en: "F#"
+    zh: "F#"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -20,6 +27,8 @@ ISSIE includes layout and sheet-beautification behavior where many bugs only app
 - Created edge-case circuits to stress layout and routing behavior.
 - Added automated failure highlighting for test results.
 - Built original-vs-improved comparison tests using random seeds.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Seeded generator|Random circuit graph|ISSIE layout/beautifier|Baseline rendering|Improved rendering|Failure highlight" %}
 
 ## Important Algorithms
 
@@ -48,6 +57,8 @@ ISSIE 包含布局和原理图美化逻辑，很多 bug 只会在特殊图结构
 - 构造边界案例，压力测试布局和走线行为。
 - 为测试结果加入自动失败高亮。
 - 使用随机种子构建原始版本和改进版本的对比测试。
+
+{% include architecture-flow.html title="架构图" steps="种子生成器|随机电路图|ISSIE 布局/美化器|基线渲染|改进渲染|失败高亮" %}
 
 ## 重要算法
 

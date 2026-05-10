@@ -5,6 +5,13 @@ excerpt: "Interactive tree split and boosting-style boundary visualization."
 excerpt_zh: "决策树划分和 Boosting 风格边界的交互式可视化。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/decision-trees-boosting/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Boosting"
+    zh: "提升方法"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -25,6 +32,15 @@ permalink: /portfolio/ml-visualization/decision-trees-boosting/
       <li><strong>树深度：</strong> 更深的树能拟合更多细节，但更容易过拟合。</li>
       <li><strong>Boosting：</strong> 多轮弱学习器逐步修正决策边界。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes">
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="Greedy splits are local decisions" data-i18n-zh="贪心划分是局部决策">Greedy splits are local decisions</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="A tree split is chosen because it improves impurity immediately, not because it is globally optimal for the whole tree. Boosting partly compensates for this by adding later weak learners that focus on the residual mistakes." data-i18n-zh="决策树选择某个划分，是因为它能立即降低不纯度，而不是保证整棵树全局最优。Boosting 通过后续弱学习器关注残余错误，部分弥补这种局部决策。">A tree split is chosen because it improves impurity immediately, not because it is globally optimal for the whole tree. Boosting partly compensates for this by adding later weak learners that focus on the residual mistakes.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">

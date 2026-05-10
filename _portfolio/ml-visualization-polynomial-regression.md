@@ -5,6 +5,13 @@ excerpt: "Interactive polynomial regression demo for basis expansion, overfittin
 excerpt_zh: "用于理解基函数展开、过拟合和 Ridge 正则的多项式回归交互演示。"
 collection: portfolio
 permalink: /portfolio/ml-visualization/polynomial-regression/
+badges:
+  - en: "Interactive Demo"
+    zh: "交互演示"
+  - en: "Algorithm Notes"
+    zh: "算法笔记"
+  - en: "Regression"
+    zh: "回归"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -25,6 +32,15 @@ permalink: /portfolio/ml-visualization/polynomial-regression/
       <li><strong>最小二乘：</strong> 通过最小化平方误差求解系数。</li>
       <li><strong>Ridge 正则：</strong> 惩罚过大的系数，让高阶曲线更稳定。</li>
     </ul>
+  </section>
+
+  <section class="algorithm-notes">
+    <details class="algorithm-note">
+      <summary><span data-i18n-en="Why high degree can fail" data-i18n-zh="为什么高阶多项式会失败">Why high degree can fail</span></summary>
+      <div class="algorithm-note__content">
+        <p data-i18n-en="The design matrix becomes increasingly correlated as degree grows, so the least-squares solution can use large positive and negative coefficients to chase small noise. Ridge regularization improves conditioning by penalizing coefficient size." data-i18n-zh="阶数越高，设计矩阵中的特征越容易高度相关，最小二乘解可能用很大的正负系数去追逐噪声。Ridge 正则通过惩罚系数大小改善数值条件。">The design matrix becomes increasingly correlated as degree grows, so the least-squares solution can use large positive and negative coefficients to chase small noise. Ridge regularization improves conditioning by penalizing coefficient size.</p>
+      </div>
+    </details>
   </section>
 
   <section class="sim-lab">

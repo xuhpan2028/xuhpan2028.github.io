@@ -5,6 +5,13 @@ excerpt: "USC web technology assignments deployed on Google App Engine with REST
 excerpt_zh: "部署在 Google App Engine 上的 USC Web 技术项目，包含 REST 风格搜索接口。"
 collection: portfolio
 permalink: /portfolio/cloud-art-search/
+badges:
+  - en: "Cloud Deployment"
+    zh: "云端部署"
+  - en: "REST API"
+    zh: "REST API"
+  - en: "Course Project"
+    zh: "课程项目"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -15,6 +22,8 @@ This project was found from the older root `table_of_assignments/index.html` and
 ## Project Scope
 
 The assignment exposed a home page and cloud API endpoint for artwork search queries such as `picasso`. The core idea was to deploy a web service that accepts a search term, calls a backend route, and returns structured results through an API path.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Search form|Frontend request|Flask API endpoint|Query normalization|Artwork service response|Result cards" %}
 
 ## Important System Concepts
 
@@ -47,6 +56,8 @@ Flask, JavaScript, HTML/CSS, Google App Engine, REST API design, cloud deploymen
 ## 项目范围
 
 项目提供主页和云端 API 搜索接口，例如查询 `picasso`。核心是部署一个 Web 服务：接收搜索词，调用后端路由，并通过 API 路径返回结构化结果。
+
+{% include architecture-flow.html title="架构图" steps="搜索表单|前端请求|Flask API 接口|查询规范化|艺术品服务响应|结果卡片" %}
 
 ## 重要系统概念
 

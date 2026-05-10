@@ -1,0 +1,142 @@
+[
+  {
+    "id": "imperial",
+    "type": "education",
+    "title": "Imperial College London",
+    "title_zh": "帝国理工学院",
+    "url": "/timeline/",
+    "tags": ["imperial", "imperial college", "icl", "london", "education", "electronic and information engineering", "eie", "hardware", "systems", "machine learning"],
+    "summary": "Xuhan earned a B.Eng. in Electronic and Information Engineering at Imperial College London with a 3.9/4.0 GPA, building foundations in signals, systems, hardware, software engineering, control, and machine learning.",
+    "summary_zh": "叙涵在帝国理工学院完成电子与信息工程学士学位，GPA 3.9/4.0，建立了信号、系统、硬件、软件工程、控制和机器学习基础。"
+  },
+  {
+    "id": "usc",
+    "type": "education",
+    "title": "University of Southern California",
+    "title_zh": "南加州大学",
+    "url": "/timeline/",
+    "tags": ["usc", "university of southern california", "education", "computer science", "artificial intelligence", "ai", "machine learning", "deep learning", "llm", "computer vision"],
+    "summary": "Xuhan is pursuing an M.S. in Computer Science with an Artificial Intelligence focus at USC, with coursework and projects in AI, deep learning, LLMs, computer vision, and web technologies.",
+    "summary_zh": "叙涵在南加州大学攻读计算机科学硕士，人工智能方向，课程和项目覆盖 AI、深度学习、大语言模型、计算机视觉和 Web 技术。"
+  },
+  {
+    "id": "ai-terminal",
+    "type": "internship project",
+    "title": "AI Voice-Interaction Terminal",
+    "title_zh": "AI 语音交互终端",
+    "url": "/portfolio/ai-companion-terminal/",
+    "tags": ["llm", "large language model", "speech", "tts", "fish-speech", "ocr", "paddleocr", "mediapipe", "computer vision", "esp32-cam", "edge hardware", "docker", "internship", "banying"],
+    "summary": "At Shenzhen Banying Suixing Technology, Xuhan worked on an AI companion and learning terminal using ESP32-CAM, MediaPipe hand landmarks, PaddleOCR, LLM response planning, and fish-speech streaming TTS. He improved speech-service concurrency by 70%.",
+    "summary_zh": "在深圳伴影随行科技，叙涵参与 AI 陪伴与学习终端，使用 ESP32-CAM、MediaPipe 手部关键点、PaddleOCR、LLM 回复规划和 fish-speech 流式 TTS，并将语音服务并发性能提升 70%。"
+  },
+  {
+    "id": "tencent-ai-arena",
+    "type": "internship project",
+    "title": "Tencent AI Arena",
+    "title_zh": "腾讯 AI Arena",
+    "url": "/portfolio/tencent-ai-arena/",
+    "tags": ["tencent", "backend", "node.js", "angular", "llm", "large language model", "prefix tuning", "structured output", "reinforcement learning", "policy gradient", "game ai", "internship"],
+    "summary": "At Tencent AI Arena, Xuhan built backend and AI features for an education game platform serving about 100,000 active learners. He used Prefix Tuning for fixed-format LLM outputs and Policy Gradient reinforcement learning for football-simulation AI players.",
+    "summary_zh": "在腾讯 AI Arena，叙涵为约 100,000 活跃学习者的教育游戏平台开发后端和 AI 功能，使用 Prefix Tuning 生成固定格式 LLM 输出，并用 Policy Gradient 强化学习训练足球模拟 AI 玩家。"
+  },
+  {
+    "id": "multimodal-sarcasm",
+    "type": "project",
+    "title": "Multimodal Sarcasm Recognition",
+    "title_zh": "多模态讽刺识别",
+    "url": "/portfolio/multimodal-sarcasm/",
+    "tags": ["multimodal", "sarcasm", "transformer", "bert", "roberta", "mpnet", "whisper", "qwen", "gemini", "gpt", "audio", "video", "text", "llm", "speech"],
+    "summary": "Xuhan built a MUStARD-based sarcasm recognition project using text, audio, video, Transformer fine-tuning, Whisper-style audio paths, and LLM-assisted analysis with Qwen, Gemini, and GPT-style methods.",
+    "summary_zh": "叙涵基于 MUStARD 构建多模态讽刺识别项目，使用文本、音频、视频、Transformer 微调、Whisper 风格音频路径，以及 Qwen、Gemini、GPT 风格的 LLM 辅助分析。"
+  },
+  {
+    "id": "computer-vision-kmeans",
+    "type": "project",
+    "title": "Computer Vision K-Means Lab",
+    "title_zh": "计算机视觉 K-Means 实验",
+    "url": "/portfolio/computer-vision-kmeans/",
+    "tags": ["computer vision", "cv", "image", "k-means", "segmentation", "texture", "laws features", "pca", "svm", "sift", "bag of words", "matlab", "usc"],
+    "summary": "Xuhan implemented Laws texture features, PCA projections, K-means texture segmentation, SVM comparison, SIFT matching, and Bag-of-Words codebooks for a USC computer vision project.",
+    "summary_zh": "叙涵在 USC 计算机视觉项目中实现 Laws 纹理特征、PCA 投影、K-means 纹理分割、SVM 对比、SIFT 匹配和 Bag-of-Words 码本。"
+  },
+  {
+    "id": "real-estate-demand",
+    "type": "project",
+    "title": "Real Estate Demand Forecasting",
+    "title_zh": "房地产需求预测",
+    "url": "/portfolio/real-estate-demand/",
+    "tags": ["forecasting", "time series", "xgboost", "lightgbm", "temporal fusion transformer", "tft", "ensemble", "lag features", "usc", "machine learning"],
+    "summary": "Xuhan built lag and rolling-window features for monthly real-estate demand prediction and compared XGBoost, LightGBM, seasonal baselines, Temporal Fusion Transformer variants, and weighted ensembles.",
+    "summary_zh": "叙涵为月度房地产需求预测构建滞后特征和滚动窗口特征，并比较 XGBoost、LightGBM、季节性基线、Temporal Fusion Transformer 变体和加权集成。"
+  },
+  {
+    "id": "fault-detection",
+    "type": "research project",
+    "title": "Deep Learning Fault Detection Research",
+    "title_zh": "深度学习故障检测研究",
+    "url": "/portfolio/deep-learning-fault-detection/",
+    "tags": ["imperial", "research", "anomaly detection", "fault detection", "gan", "cgan", "acgan", "wgan", "vae", "cnn", "rnn", "transfer learning", "reinforcement learning"],
+    "summary": "At Imperial College, Xuhan researched deep learning methods for computer fault detection, including GAN, CGAN, ACGAN, WGAN, VAE, CNN, RNN, reinforcement learning, and transfer learning directions.",
+    "summary_zh": "在帝国理工，叙涵研究计算机故障检测的深度学习方法，覆盖 GAN、CGAN、ACGAN、WGAN、VAE、CNN、RNN、强化学习和迁移学习。"
+  },
+  {
+    "id": "ml-visualization",
+    "type": "project",
+    "title": "Machine Learning Visualization",
+    "title_zh": "机器学习可视化",
+    "url": "/portfolio/ml-visualization/",
+    "tags": ["interactive demo", "machine learning", "visualization", "k-means", "svm", "knn", "polynomial regression", "decision trees", "boosting", "gmm", "em", "rag", "lora", "transformer", "cnn", "speech"],
+    "summary": "Xuhan built browser-based ML simulators for classic and modern AI topics, including linear regression, K-means, KNN, SVM kernels, decision trees, GMM/EM, Transformer attention, RAG, LoRA, CNN feature maps, and speech spectrograms.",
+    "summary_zh": "叙涵构建了浏览器端机器学习模拟器，覆盖线性回归、K-means、KNN、SVM 核方法、决策树、GMM/EM、Transformer 注意力、RAG、LoRA、CNN 特征图和语音频谱。"
+  },
+  {
+    "id": "fpga-ping-pong",
+    "type": "project",
+    "title": "FPGA Multiplayer Ping-Pong Game",
+    "title_zh": "FPGA 多人乒乓游戏",
+    "url": "/portfolio/fpga-ping-pong/",
+    "tags": ["fpga", "verilog", "hardware", "unity", "aws", "tcp/ip", "networking", "game", "imperial", "c#"],
+    "summary": "Xuhan built a two-player FPGA ping-pong game with Verilog logic, TCP/IP networking, AWS EC2 synchronization, and Unity 3D visualization.",
+    "summary_zh": "叙涵构建了双人 FPGA 乒乓游戏，包含 Verilog 逻辑、TCP/IP 联网、AWS EC2 同步和 Unity 3D 展示。"
+  },
+  {
+    "id": "compiler",
+    "type": "project",
+    "title": "C90 to RISC-V Compiler",
+    "title_zh": "C90 到 RISC-V 编译器",
+    "url": "/portfolio/c90-riscv-compiler/",
+    "tags": ["compiler", "c90", "risc-v", "flex", "bison", "ast", "c++", "systems", "imperial"],
+    "summary": "Xuhan implemented compiler components for lexical analysis, parsing, AST construction, and RISC-V assembly generation for C90 programs.",
+    "summary_zh": "叙涵实现了 C90 编译器组件，包括词法分析、语法分析、AST 构建和 RISC-V 汇编生成。"
+  },
+  {
+    "id": "boss-join",
+    "type": "project",
+    "title": "BOSS Multi-Way Join Engine",
+    "title_zh": "BOSS 多路 Join 引擎",
+    "url": "/portfolio/boss-join-engine/",
+    "tags": ["database", "query processing", "hash join", "sort merge join", "c++", "systems", "imperial"],
+    "summary": "Xuhan implemented hash join and sort-merge join operators for a composable C++ query-processing engine and compared scaling behavior on multi-way equi-joins.",
+    "summary_zh": "叙涵为可组合 C++ 查询处理引擎实现 hash join 和 sort-merge join 算子，并比较多路等值连接的扩展行为。"
+  },
+  {
+    "id": "maze-robot",
+    "type": "project",
+    "title": "Maze-Solving Balancing Robot",
+    "title_zh": "迷宫求解平衡机器人",
+    "url": "/portfolio/maze-solving-robot/",
+    "tags": ["robotics", "control", "path planning", "maze", "esp32", "mpu6050", "fpga camera", "hardware", "imperial"],
+    "summary": "Xuhan designed the algorithmic stack for a two-wheel balancing robot, including balance control, dead reckoning, line detection, and shortest-path maze navigation.",
+    "summary_zh": "叙涵设计两轮平衡机器人的算法栈，包括平衡控制、航位推算、线检测和最短路径迷宫导航。"
+  },
+  {
+    "id": "research-notes",
+    "type": "research interest",
+    "title": "Research Notes and Interests",
+    "title_zh": "研究笔记与兴趣",
+    "url": "/research-notes/",
+    "tags": ["research", "llm alignment", "multimodal learning", "speech models", "efficient fine-tuning", "lora", "qlora", "prefix tuning", "rag"],
+    "summary": "Xuhan's research notes focus on LLM alignment, multimodal learning, speech models, efficient fine-tuning, RAG, LoRA, and production-facing ML systems.",
+    "summary_zh": "叙涵的研究笔记关注 LLM alignment、多模态学习、语音模型、高效微调、RAG、LoRA 和面向生产系统的机器学习。"
+  }
+]

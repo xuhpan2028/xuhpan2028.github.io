@@ -20,6 +20,7 @@
     });
     updateRunButton();
     updateKMeansRunButton();
+    document.dispatchEvent(new CustomEvent("site-lang-change", { detail: { lang: currentLang } }));
   }
 
   function setupLanguageSwitch() {
@@ -569,6 +570,240 @@
     draw();
   }
 
+  function initAttention() {
+    const canvas = document.querySelector("[data-attention-canvas]");
+    const tempInput = document.querySelector("[data-attention-temp]");
+    const localInput = document.querySelector("[data-attention-local]");
+    if (!canvas || !tempInput || !localInput) return;
+    const tokens = ["User", "points", "at", "text", "OCR", "retrieves", "answer"];
+    const draw = () => {
+      const temperature = Number(tempInput.value) / 100;
+      const localBias = Number(localInput.value) / 100;
+      const { ctx, width, height } = sizeCanvas(canvas, 320);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+      const margin = 58;
+      const grid = Math.min(width - margin - 12, height - margin - 10);
+      const cell = grid / tokens.length;
+      ctx.font = "12px sans-serif";
+      ctx.fillStyle = "#333";
+      tokens.forEach((token, i) => {
+        ctx.fillText(token, margin + i * cell + 3, 24);
+        ctx.save();
+        ctx.translate(10, margin + i * cell + cell * .65);
+        ctx.rotate(-Math.PI / 6);
+        ctx.fillText(token, 0, 0);
+        ctx.restore();
+      });
+      for (let row = 0; row < tokens.length; row += 1) {
+        const raw = tokens.map((_, col) => {
+          const semantic = row === col ? 1.2 : (row + col) % 3 === 0 ? .72 : .32;
+          const local = Math.exp(-Math.abs(row - col) * (1.2 + localBias * 2.4));
+          return Math.exp((semantic * (1 - localBias) + local * localBias) / Math.max(.08, temperature));
+        });
+        const total = raw.reduce((a, b) => a + b, 0);
+        raw.forEach((value, col) => {
+          const score = value / total;
+          const alpha = Math.min(.95, .12 + score * 4.4);
+          ctx.fillStyle = `rgba(43,140,190,${alpha})`;
+          ctx.fillRect(margin + col * cell, margin + row * cell, cell - 2, cell - 2);
+        });
+      }
+      document.querySelector("[data-attention-temp-value]").textContent = temperature.toFixed(2);
+      document.querySelector("[data-attention-local-value]").textContent = `${Math.round(localBias * 100)}%`;
+    };
+    tempInput.addEventListener("input", draw);
+    localInput.addEventListener("input", draw);
+    draw();
+  }
+
+  function initRag() {
+    const canvas = document.querySelector("[data-rag-canvas]");
+    const intentInput = document.querySelector("[data-rag-intent]");
+    const topkInput = document.querySelector("[data-rag-topk]");
+    if (!canvas || !intentInput || !topkInput) return;
+    const docs = [
+      { en: "LLM terminal: OCR + hand tracking + TTS", zh: "LLM 终端：OCR + 手势追踪 + TTS", x: .18 },
+      { en: "Multimodal sarcasm: text/audio/video fusion", zh: "多模态讽刺：文本/音频/视频融合", x: .34 },
+      { en: "Real estate forecast: lag features + ensembles", zh: "房地产预测：滞后特征 + 集成", x: .52 },
+      { en: "Robot navigation: IMU + maze graph planning", zh: "机器人导航：IMU + 迷宫图规划", x: .72 },
+      { en: "FPGA game: state machine + Unity rendering", zh: "FPGA 游戏：状态机 + Unity 渲染", x: .88 }
+    ];
+    const draw = () => {
+      const intent = Number(intentInput.value) / 100;
+      const topk = Number(topkInput.value);
+      const scored = docs.map((doc) => ({
+        ...doc,
+        score: Math.max(0, 1 - Math.abs(intent - doc.x) * 1.85)
+      })).sort((a, b) => b.score - a.score);
+      const { ctx, width, height } = sizeCanvas(canvas, 320);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = "13px sans-serif";
+      scored.forEach((doc, i) => {
+        const y = 34 + i * 52;
+        const selected = i < topk;
+        ctx.fillStyle = selected ? "rgba(49,163,84,.16)" : "rgba(120,120,120,.08)";
+        ctx.fillRect(18, y - 20, width - 36, 38);
+        ctx.fillStyle = selected ? "#31a354" : "#888";
+        ctx.fillRect(18, y + 13, (width - 36) * doc.score, 5);
+        ctx.fillStyle = "#222";
+        ctx.fillText(`${i + 1}. ${currentLang === "zh" ? doc.zh : doc.en}`, 28, y + 3);
+      });
+      const label = intent < .33
+        ? (currentLang === "zh" ? "LLM 系统" : "LLM systems")
+        : intent < .66
+          ? (currentLang === "zh" ? "预测建模" : "forecasting")
+          : (currentLang === "zh" ? "机器人/硬件" : "robotics/hardware");
+      document.querySelector("[data-rag-intent-label]").textContent = label;
+      document.querySelector("[data-rag-topk-value]").textContent = String(topk);
+      document.querySelector("[data-rag-context]").textContent = scored.slice(0, topk).map((doc) => currentLang === "zh" ? doc.zh : doc.en).join(" | ");
+    };
+    intentInput.addEventListener("input", draw);
+    topkInput.addEventListener("input", draw);
+    document.addEventListener("site-lang-change", draw);
+    draw();
+  }
+
+  function initLora() {
+    const canvas = document.querySelector("[data-lora-canvas]");
+    const rankInput = document.querySelector("[data-lora-rank]");
+    const stepsInput = document.querySelector("[data-lora-steps]");
+    if (!canvas || !rankInput || !stepsInput) return;
+    const draw = () => {
+      const rank = Number(rankInput.value);
+      const steps = Number(stepsInput.value);
+      const { ctx, width, height } = sizeCanvas(canvas, 320);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+      const baseParams = 100;
+      const adapterParams = Math.round(rank * 1.8);
+      const fit = Math.min(.97, (1 - Math.exp(-rank / 9)) * (1 - Math.exp(-steps / 95)));
+      ctx.font = "13px sans-serif";
+      ctx.fillStyle = "#222";
+      ctx.fillText(currentLang === "zh" ? "基础模型参数冻结" : "Frozen base model", 24, 38);
+      ctx.fillText(currentLang === "zh" ? "LoRA 可训练参数" : "Trainable LoRA adapter", 24, 110);
+      ctx.fillStyle = "rgba(43,140,190,.24)";
+      ctx.fillRect(24, 50, width - 48, 30);
+      ctx.fillStyle = "#2b8cbe";
+      ctx.fillRect(24, 122, (width - 48) * Math.min(.9, adapterParams / baseParams), 30);
+      ctx.strokeStyle = "#222";
+      ctx.beginPath();
+      ctx.moveTo(30, height - 44);
+      for (let x = 0; x <= 120; x += 1) {
+        const localFit = Math.min(.97, (1 - Math.exp(-rank / 9)) * (1 - Math.exp(-(x * 2.5) / 95)));
+        const px = 30 + (x / 120) * (width - 60);
+        const py = height - 44 - localFit * 120;
+        if (x === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.fillStyle = "#e34a33";
+      ctx.beginPath();
+      ctx.arc(30 + (steps / 300) * (width - 60), height - 44 - fit * 120, 5, 0, Math.PI * 2);
+      ctx.fill();
+      document.querySelector("[data-lora-rank-value]").textContent = String(rank);
+      document.querySelector("[data-lora-steps-value]").textContent = String(steps);
+    };
+    rankInput.addEventListener("input", draw);
+    stepsInput.addEventListener("input", draw);
+    document.addEventListener("site-lang-change", draw);
+    draw();
+  }
+
+  function initCnn() {
+    const canvas = document.querySelector("[data-cnn-canvas]");
+    const kernelInput = document.querySelector("[data-cnn-kernel]");
+    const thresholdInput = document.querySelector("[data-cnn-threshold]");
+    if (!canvas || !kernelInput || !thresholdInput) return;
+    const kernels = [
+      { en: "Edge", zh: "边缘", k: [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]] },
+      { en: "Blur", zh: "模糊", k: [[1, 1, 1], [1, 1, 1], [1, 1, 1]].map((row) => row.map((v) => v / 9)) },
+      { en: "Sharpen", zh: "锐化", k: [[0, -1, 0], [-1, 5, -1], [0, -1, 0]] }
+    ];
+    const image = Array.from({ length: 10 }, (_, y) => Array.from({ length: 10 }, (_, x) => {
+      const block = x > 2 && x < 8 && y > 2 && y < 8 ? 180 : 35;
+      const stripe = x === y || x === 9 - y ? 55 : 0;
+      return Math.min(255, block + stripe);
+    }));
+    const convolve = (x, y, kernel) => {
+      let value = 0;
+      for (let ky = -1; ky <= 1; ky += 1) {
+        for (let kx = -1; kx <= 1; kx += 1) {
+          const yy = Math.max(0, Math.min(9, y + ky));
+          const xx = Math.max(0, Math.min(9, x + kx));
+          value += image[yy][xx] * kernel[ky + 1][kx + 1];
+        }
+      }
+      return value;
+    };
+    const drawGrid = (ctx, data, x0, y0, cell, threshold) => {
+      data.forEach((row, y) => row.forEach((value, x) => {
+        const intensity = Math.max(0, Math.min(255, Math.abs(value)));
+        const active = intensity >= threshold;
+        ctx.fillStyle = active ? `rgb(${255 - intensity},${255 - Math.floor(intensity * .45)},${255 - Math.floor(intensity * .25)})` : "#f3f3f3";
+        ctx.fillRect(x0 + x * cell, y0 + y * cell, cell - 1, cell - 1);
+      }));
+    };
+    const draw = () => {
+      const kernel = kernels[Number(kernelInput.value)];
+      const threshold = Number(thresholdInput.value);
+      const features = image.map((row, y) => row.map((_, x) => convolve(x, y, kernel.k)));
+      const { ctx, width } = sizeCanvas(canvas, 320);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, 320);
+      const cell = Math.min(20, (width - 72) / 22);
+      ctx.font = "13px sans-serif";
+      ctx.fillStyle = "#222";
+      ctx.fillText(currentLang === "zh" ? "输入图像" : "Input image", 24, 30);
+      ctx.fillText(currentLang === "zh" ? "激活图" : "Feature map", 48 + cell * 11, 30);
+      drawGrid(ctx, image, 24, 44, cell, 0);
+      drawGrid(ctx, features, 48 + cell * 11, 44, cell, threshold);
+      document.querySelector("[data-cnn-kernel-label]").textContent = currentLang === "zh" ? kernel.zh : kernel.en;
+      document.querySelector("[data-cnn-threshold-value]").textContent = String(threshold);
+    };
+    kernelInput.addEventListener("input", draw);
+    thresholdInput.addEventListener("input", draw);
+    document.addEventListener("site-lang-change", draw);
+    draw();
+  }
+
+  function initSpeech() {
+    const canvas = document.querySelector("[data-speech-canvas]");
+    const pitchInput = document.querySelector("[data-speech-pitch]");
+    const energyInput = document.querySelector("[data-speech-energy]");
+    if (!canvas || !pitchInput || !energyInput) return;
+    const draw = () => {
+      const pitch = Number(pitchInput.value) / 100;
+      const energy = Number(energyInput.value) / 100;
+      const { ctx, width, height } = sizeCanvas(canvas, 320);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+      for (let t = 0; t < 80; t += 1) {
+        const center = 12 + pitch * 34 + (t / 80) * pitch * 30;
+        for (let f = 0; f < 56; f += 1) {
+          const harmonic = Math.exp(-((f - center) ** 2) / (18 + energy * 16));
+          const formant = Math.exp(-((f - center * 1.8) ** 2) / 28) * .65;
+          const value = Math.min(1, (harmonic + formant) * energy);
+          ctx.fillStyle = `rgba(227,74,51,${value})`;
+          ctx.fillRect((t / 80) * width, height - (f / 56) * height, width / 80 + 1, height / 56 + 1);
+        }
+      }
+      const prediction = pitch > .7
+        ? (currentLang === "zh" ? "疑问句" : "question")
+        : energy > .72
+          ? (currentLang === "zh" ? "强调" : "emphasis")
+          : (currentLang === "zh" ? "陈述句" : "statement");
+      document.querySelector("[data-speech-pitch-value]").textContent = `${Math.round(pitch * 100)}%`;
+      document.querySelector("[data-speech-energy-value]").textContent = `${Math.round(energy * 100)}%`;
+      document.querySelector("[data-speech-prediction]").textContent = prediction;
+    };
+    pitchInput.addEventListener("input", draw);
+    energyInput.addEventListener("input", draw);
+    document.addEventListener("site-lang-change", draw);
+    draw();
+  }
+
   function init() {
     setupLanguageSwitch();
     initRegression();
@@ -578,6 +813,11 @@
     initSvm();
     initTree();
     initEm();
+    initAttention();
+    initRag();
+    initLora();
+    initCnn();
+    initSpeech();
     window.addEventListener("resize", () => {
       drawRegression();
       drawKMeans();
@@ -586,6 +826,11 @@
       document.querySelector("[data-svm-gamma]")?.dispatchEvent(new Event("input"));
       document.querySelector("[data-tree-depth]")?.dispatchEvent(new Event("input"));
       document.querySelector("[data-em-softness]")?.dispatchEvent(new Event("input"));
+      document.querySelector("[data-attention-temp]")?.dispatchEvent(new Event("input"));
+      document.querySelector("[data-rag-intent]")?.dispatchEvent(new Event("input"));
+      document.querySelector("[data-lora-rank]")?.dispatchEvent(new Event("input"));
+      document.querySelector("[data-cnn-kernel]")?.dispatchEvent(new Event("input"));
+      document.querySelector("[data-speech-pitch]")?.dispatchEvent(new Event("input"));
     });
   }
 

@@ -35,6 +35,16 @@
         <a href="{{ base_path }}{{ post.url }}" rel="permalink" data-i18n-en="{{ title | strip_html | escape }}" data-i18n-zh="{{ title_zh | strip_html | escape }}">{{ title }}</a>
       {% endif %}
     </h2>
+
+    {% if post.badges %}
+      <div class="portfolio-badges" aria-label="Project badges">
+        {% for badge in post.badges %}
+          {% assign badge_en = badge.en | default: badge %}
+          {% assign badge_zh = badge.zh | default: badge_en %}
+          <span class="portfolio-badge" data-i18n-en="{{ badge_en | escape }}" data-i18n-zh="{{ badge_zh | escape }}">{{ badge_en }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
     
     {% if post.read_time %}
       <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>

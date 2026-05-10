@@ -12,9 +12,21 @@ main:
     title_zh: "经历"
     url: /experience/
 
+  - title: "Research"
+    title_zh: "研究"
+    url: /research-notes/
+
+  - title: "Assistant"
+    title_zh: "助手"
+    url: /assistant/
+
   - title: "Portfolio"
     title_zh: "项目"
     url: /portfolio/
+
+  - title: "Timeline"
+    title_zh: "时间线"
+    url: /timeline/
 
   - title: "CV"
     title_zh: "简历"

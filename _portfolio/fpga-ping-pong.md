@@ -5,6 +5,13 @@ excerpt: "Real-time game system across Verilog FPGA logic, TCP/IP networking, AW
 excerpt_zh: "跨 Verilog FPGA 逻辑、TCP/IP 网络、AWS EC2 和 Unity 的实时游戏系统。"
 collection: portfolio
 permalink: /portfolio/fpga-ping-pong/
+badges:
+  - en: "Hardware System"
+    zh: "硬件系统"
+  - en: "Cloud Sync"
+    zh: "云端同步"
+  - en: "Unity"
+    zh: "Unity"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -19,6 +26,8 @@ The project connected three very different execution environments: deterministic
 - Implemented timing-sensitive game-state behavior on FPGA hardware.
 - Used TCP/IP and AWS EC2 to transmit player state for real-time interaction.
 - Built a Unity 3D interface and sound effects for gameplay presentation.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="Player input|FPGA finite-state logic|Collision and score state|TCP/IP state sync|AWS EC2 relay|Unity 3D rendering" %}
 
 ## Important Algorithms and Logic
 
@@ -46,6 +55,8 @@ Verilog, Quartus Prime, FPGA, TCP/IP, AWS EC2, Unity, C#.
 - 在 FPGA 硬件上实现对时序敏感的游戏状态逻辑。
 - 使用 TCP/IP 和 AWS EC2 传输玩家状态，实现实时交互。
 - 使用 Unity 构建 3D 界面和音效反馈。
+
+{% include architecture-flow.html title="架构图" steps="玩家输入|FPGA 有限状态机|碰撞与得分状态|TCP/IP 状态同步|AWS EC2 转发|Unity 3D 渲染" %}
 
 ## 重要算法与逻辑
 

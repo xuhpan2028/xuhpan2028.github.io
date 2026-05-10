@@ -5,6 +5,13 @@ excerpt: "C++ data-processing coursework implementing hash join and sort-merge j
 excerpt_zh: "C++ 数据处理课程项目，为可组合查询引擎实现 Hash Join 和 Sort-Merge Join 算子。"
 collection: portfolio
 permalink: /portfolio/boss-join-engine/
+badges:
+  - en: "Systems Project"
+    zh: "系统项目"
+  - en: "C++"
+    zh: "C++"
+  - en: "Query Processing"
+    zh: "查询处理"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -15,6 +22,8 @@ This project was found under `~/Analytical_Data_Processing_hp921` and `~/Analyti
 ## System Context
 
 BOSS represents query plans and intermediate data as homoiconic expressions. The coursework isolated chains of equi-joins from larger query plans and passed them to a JoinOnly engine. The remaining operators, such as selection, projection, and top-N, were handled by a Volcano-style engine.
+
+{% include architecture-flow.html title="Architecture Diagram" steps="BOSS query expression|Join chain extraction|JoinOnly engine|Hash or sort-merge join|Intermediate bindings|Volcano engine continuation" %}
 
 ## Important Algorithms
 
@@ -40,6 +49,8 @@ C++, CMake, BOSS expressions, hash join, sort-merge join, Volcano execution mode
 ## 系统背景
 
 BOSS 用同像表达式表示查询计划和中间数据。课程项目从更大的查询计划中隔离等值连接链，并交给 JoinOnly 引擎执行；选择、投影、Top-N 等其他算子由 Volcano 风格引擎处理。
+
+{% include architecture-flow.html title="架构图" steps="BOSS 查询表达式|Join 链提取|JoinOnly 引擎|Hash 或 Sort-Merge Join|中间绑定结果|Volcano 引擎继续执行" %}
 
 ## 重要算法
 

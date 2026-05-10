@@ -5,6 +5,13 @@ excerpt: "MUStARD-based text, audio, and video modeling with Transformer fine-tu
 excerpt_zh: "基于 MUStARD 的文本、音频和视频建模，结合 Transformer 微调与 LLM 辅助分析。"
 collection: portfolio
 permalink: /portfolio/multimodal-sarcasm/
+badges:
+  - en: "Research-style Notes"
+    zh: "研究式笔记"
+  - en: "Multimodal ML"
+    zh: "多模态机器学习"
+  - en: "Transformer"
+    zh: "Transformer"
 ---
 
 <div class="bilingual-page" data-bilingual-root data-lang="en">
@@ -22,6 +29,8 @@ Sarcasm is a useful multimodal problem because the literal text can conflict wit
 - Evaluated unimodal baselines and multimodal fusion strategies using macro-F1.
 - Improved accuracy by **5%** through cross-modal signal integration.
 
+{% include architecture-flow.html title="Architecture Diagram" steps="Dialogue clip|Text/audio/video features|Transformer encoders|Unimodal baselines|Fusion layer|Sarcasm prediction + macro-F1" %}
+
 ## Important Algorithms
 
 **Context-aware Transformer encoding.** Text models such as BERT, RoBERTa, and MPNet encode utterances into contextual embeddings. For sarcasm, the surrounding dialogue matters because a sarcastic sentence often reverses or contradicts prior context. Fine-tuning with context helps the classifier learn that relationship.
@@ -33,6 +42,22 @@ Sarcasm is a useful multimodal problem because the literal text can conflict wit
 **Macro-F1 evaluation.** Macro-F1 was used because sarcasm datasets can be imbalanced. It averages class-level F1 scores, so performance on the minority class matters instead of being hidden by majority-class accuracy.
 
 **LLM-assisted analysis.** Qwen, Gemini, and GPT-style analysis paths were used as comparison points for reasoning over dialogue context. They helped expose cases where explicit commonsense or conversational interpretation mattered.
+
+## Algorithm Notes
+
+<details class="algorithm-note">
+<summary>Fusion helps only when modalities add independent evidence</summary>
+<div class="algorithm-note__content" markdown="1">
+Adding audio or video features does not guarantee improvement. Fusion works when a second modality resolves ambiguity in the text, such as when positive words are delivered with negative prosody. Otherwise, the extra stream can add noise and hurt macro-F1.
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>Macro-F1 changes the optimization target</summary>
+<div class="algorithm-note__content" markdown="1">
+Accuracy can look strong if the majority class dominates. Macro-F1 forces the model to care about sarcastic and non-sarcastic classes separately, making it a better diagnostic for imbalanced sarcasm datasets.
+</div>
+</details>
 
 ## Technical Stack
 
@@ -53,6 +78,8 @@ Transformers, BERT, RoBERTa, MPNet, Whisper, Qwen, Gemini, GPT, PyTorch, macro-F
 - 使用 macro-F1 评估单模态基线和多模态融合策略。
 - 通过跨模态信号整合将准确率提升 **5%**。
 
+{% include architecture-flow.html title="架构图" steps="对话片段|文本/音频/视频特征|Transformer 编码器|单模态基线|融合层|讽刺预测 + macro-F1" %}
+
 ## 重要算法
 
 **上下文感知 Transformer 编码。** BERT、RoBERTa 和 MPNet 等文本模型把话语编码成上下文表示。讽刺常常反转或违背前文语境，因此加入上下文微调能帮助分类器学习这种关系。
@@ -64,6 +91,22 @@ Transformers, BERT, RoBERTa, MPNet, Whisper, Qwen, Gemini, GPT, PyTorch, macro-F
 **Macro-F1 评估。** 讽刺数据集可能类别不均衡，因此使用 macro-F1，让少数类表现不会被多数类准确率掩盖。
 
 **LLM 辅助分析。** Qwen、Gemini 和 GPT 风格路径用于对话上下文推理对比，帮助暴露需要常识或会话解释的案例。
+
+## 算法笔记
+
+<details class="algorithm-note">
+<summary>只有模态提供独立证据时，融合才有帮助</summary>
+<div class="algorithm-note__content" markdown="1">
+加入音频或视频特征并不必然提升效果。融合真正有用的情况是第二个模态能消除文本歧义，例如正面词语配负面语气。否则额外模态可能只是增加噪声，拉低 macro-F1。
+</div>
+</details>
+
+<details class="algorithm-note">
+<summary>Macro-F1 改变了优化关注点</summary>
+<div class="algorithm-note__content" markdown="1">
+如果多数类占比高，准确率可能看起来不错。Macro-F1 会分别关注讽刺和非讽刺类别，让少数类表现无法被总体准确率掩盖，因此更适合诊断不平衡讽刺数据集。
+</div>
+</details>
 
 ## 技术栈
 
